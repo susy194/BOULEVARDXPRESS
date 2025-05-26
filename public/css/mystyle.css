@@ -1,0 +1,277 @@
+.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.card , .box {
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.is-info {
+    background-color: #1B396A;
+    color: whitesmoke;
+}
+
+.banner-img {
+    height: 20px;  /* Ajusta la altura */
+    width: 100%;   /* Asegura que cubra todo el ancho */
+}
+
+.banner {
+    width: 100%;
+    height: 6rem;
+    overflow: hidden;
+  }
+
+  .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .section {
+    margin-bottom: 0;  /* Elimina el espacio extra debajo */
+    padding: 1rem 0;  /* Ajusta el padding para evitar que quede demasiado pegado */
+  }
+  
+  h2 {
+    margin: 0;  /* Elimina márgenes del título */
+  }
+  
+  button {
+    margin: 0;  /* Asegura que los botones no tengan márgenes extra */
+  }
+  
+  .mi-banner {
+    background: #FFD256; /* Fondo degradado */
+    padding: 0.5rem 0;  /* Reduce el espacio superior e inferior */
+  }
+  
+  .mi-banner .column {
+    padding: 0.25rem; /* Reduce el padding interno de cada columna */
+  }
+  
+  .mi-banner h2 {
+    font-size: 1.2rem; /* Hace el título más compacto */
+    margin: 0; /* Elimina espacios extra */
+  }
+  
+  .mi-banner button {
+    padding: 0.25rem 0.75rem; /* Botón más pequeño */
+    font-size: 0.9rem; /* Reduce el tamaño del texto del botón */
+  }
+
+  .icon-button {
+    width: 3rem;  /* Hace el botón cuadrado */
+    height: 3rem; /* Igual al ancho para que sea cuadrado */
+    align-items: center;  
+    justify-content: center;  
+    font-size: 1rem; /* Hace el ícono más grande */
+    padding: 0;  /* Elimina el padding extra */
+    border-radius: 0.5rem; /* Opcional: esquinas ligeramente redondeadas */
+  }
+  
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido {
+    flex: 1;  /* Expande la sección de contenido para ocupar el espacio disponible */
+    min-height: 71vh; /* Asegura que el contenido crezca hasta llenar la pantalla */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra los elementos si hay poco contenido */
+}
+
+/* Footer más delgado y siempre visible al final */
+.custom-footer {
+    background-color: #FFD256;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.color-button {
+  background-color: #f0bb29;
+  color: black;
+}
+
+.status-button-wp{
+  background-color: #30a536;
+  color: whitesmoke;
+}
+
+.status-button-wop{
+  background-color: #a53030;
+  color: whitesmoke;
+}
+
+.div-perso{
+  background-color: rgb(223, 221, 221);
+  /* display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  height: 100vh; */
+}
+
+/* Estatus en colores */
+.status-pendiente {
+  color: green;
+  font-weight: bold;
+}
+
+.status-espera {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-entregado {
+  color: blue;
+  font-weight: bold;
+}
+
+/* Caja de resumen */
+.comanda-box {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Botón redondo de ícono */
+.icon-button {
+  background-color: #f6c23e;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+/* Caja general */
+.categoria-box {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Tarjeta de categoría */
+.categoria-card {
+  transition: transform 0.2s ease;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.categoria-card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+/* Imagen cuadrada */
+.image.is-square {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+/* Comanda lateral */
+.comanda-box {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 200px;
+}
+
+/* Botón icono */
+.icon-button {
+  background-color: #f6c23e;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: black;
+}
+
+.icon-button-sq {
+  background-color: #f6c23e;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: black;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .mi-banner h2 {
+      font-size: 1rem; /* Reduce el tamaño del título */
+  }
+
+  .mi-banner .column {
+      padding: 0.5rem; /* Ajusta el espaciado interno */
+  }
+
+  .icon-button {
+      width: 2.5rem;  /* Botón cuadrado más pequeño */
+      height: 2.5rem;
+      font-size: 1rem;
+  }
+
+  .custom-footer {
+      font-size: 0.8rem; /* Reduce el tamaño del texto en el footer */
+      padding: 0.4rem 0; /* Ajusta el padding del footer */
+  }
+
+  .columns {
+      display: flex;
+      flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mi-banner {
+      flex-direction: column; /* Cambia la estructura de los elementos en pantallas pequeñas */
+      text-align: center;
+  }
+
+  .mi-banner .column {
+      text-align: center;
+  }
+
+  .icon-button {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.9rem;
+  }
+
+  .custom-footer {
+      flex-direction: column;
+      text-align: center;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #fcd34d; /* color amarillo */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+}
+
+.sidebar.show {
+  left: 0;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
