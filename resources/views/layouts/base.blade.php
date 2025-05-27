@@ -57,7 +57,7 @@
   <aside id="sidebar" class="menu sidebar">
     <div class="sidebar-content has-text-centered mt-6">
       <figure class="image is-128x128 is-inline-block mt-6">
-        <img class="is-rounded mt-4" src="{{ asset('img/') }}" alt="Usuario">
+        <img class="is-rounded mt-4" src="{{ asset('img/ARTEMIS.jpg') }}" alt="Usuario">
       </figure>
       @auth
       <p class="title is-5 mt-6 mb-0">{{ Auth::user()->usuario }}</p>

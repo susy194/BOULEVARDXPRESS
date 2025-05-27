@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Mesa;
 use App\Models\Categoria;
 use App\Models\Pedido;
@@ -36,9 +35,6 @@ class MesaController extends Controller
             ]);
         }
 
-
-        return view("categorias",  [
-                'categorias' => Categoria::with('productos')->get()
-        ]);
+        return redirect()->route('categorias', ['mesa' => $id]);
     }
 }

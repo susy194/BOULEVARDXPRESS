@@ -64,25 +64,23 @@ Route::middleware([CheckRole::class . ':Mesero'])->group(function () {
     Route::get( '/ver-mesa/{id}', [MesaController::class, 'verMesa']);
 
 
-    Route::get( '/categorias',
+    Route::get( '/categorias/{mesa}',
         [CategoriaController::class, 'index']
-    )->name('categorias.index');
+    )->name('categorias');
 
 
-    Route::get( '/categoria/{id}',
+    Route::get( '/categoria/{mesa}/{id}',
         [CategoriaController::class, 'show']
-    )->name('categorias.show');
-
-
-    Route::get( '/nuevo-pedido',
-        [NuevoPedidoController::class, 'index']
-    )->name('nuevo-pedido');
+    )->name('productos-categoria');
 
 
     Route::get( '/mesas', [MesaController::class, 'getMesas']);
 
 
     Route::view( '/cerrar-cuenta', 'cerrar-cuenta')->name('cerrar-cuenta');
+
+
+    Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido'])->name('agregar-pedido');
 });
 
 
