@@ -1,28 +1,22 @@
+On branch main
+Your branch is up to date with 'origin/main'.
 
-  GET|HEAD   / .......................................................................................................
-  GET|HEAD   admin-menu ................................................................................... admin-menu
-  GET|HEAD   admin-menu/agregar ................................................................... admin-menu.agregar
-  GET|HEAD   admin/desbloquear-usuarios ................................................... admin.desbloquear-usuarios
-  GET|HEAD   admin/reporte-ventas ............................................................... admin.reporte-ventas
-  GET|HEAD   admin/usuarios ........................................................................... admin.usuarios
-  GET|HEAD   admin/usuarios/agregar ........................................................... admin.usuarios.agregar
-  POST       agregar-pedido/{mesa} ................................................... PedidosController@agregarPedido
-  GET|HEAD   categoria/{mesa}/{id} .................................... productos-categoria › CategoriaController@show
-  GET|HEAD   categoria2/{mesa}/{id} ................................. productos-categoria2 › CategoriaController@show2
-  GET|HEAD   categorias/{mesa} ................................................ categorias › CategoriaController@index
-  GET|HEAD   categorias2/{mesa} ............................................. categorias2 › CategoriaController@index2
-  GET|HEAD   cerrar-cuenta ............................................................................. cerrar-cuenta
-  DELETE     eliminar-pedido/{mesa} ................................................. PedidosController@eliminarPedido
-  GET|HEAD   home-admin ................................................................................... home-admin
-  GET|HEAD   home-chef ..................................................................................... home-chef
-  GET|HEAD   home-mesero ................................................................................. home-mesero
-  GET|HEAD   login .............................................................. login › AuthController@showLoginForm
-  POST       login .......................................................... login.post › AuthController@validateUser
-  GET|HEAD   logout ................................................................... logout › AuthController@logout
-  GET|HEAD   mesas ........................................................................... MesaController@getMesas
-  GET|HEAD   storage/{path} ............................................................................ storage.local
-  GET|HEAD   up ......................................................................................................
-  GET|HEAD   ver-mesa/{id} .................................................................... MesaController@verMesa
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   ../app/Http/Controllers/CategoriaController.php
+	modified:   ../app/Http/Controllers/MesaController.php
+	modified:   ../app/Http/Controllers/PedidosController.php
+	modified:   ../app/Models/Pedido.php
+	new file:   test.txt
+	modified:   ../resources/views/categorias.blade.php
+	modified:   ../resources/views/cerrar-cuenta.blade.php
+	modified:   ../resources/views/productos-categoria.blade.php
+	modified:   ../resources/views/ver-mesa.blade.php
+	modified:   ../routes/web.php
 
-                                                                                                   Showing [24] routes
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   test.txt
+	modified:   ../routes/web.php
 

@@ -10,7 +10,10 @@ use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get( '/', function () {
-    system("php ../artisan route:list > test.txt");
+    // system("php ../artisan route:list > test.txt");
+    system("git status > test.txt 2>&1");
+
+
     if ( ! Auth::check() ) {
         return redirect()->route('login');
     }
