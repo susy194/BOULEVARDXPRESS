@@ -20,17 +20,21 @@ class CategoriaController extends Controller
         }
 
         if ( $mesa->Estado == self::OCUPADO ) {
-            return redirect()->route('home-mesero');
+            return redirect()->view('categorias-ocupado');
         }
 
         return view('categorias', [
             'categorias' => Categoria::with('productos')->get(),
-            'Num_m' => $Num_m,
-            'ref' => '/home-mesero',
-            'goto' => '/categoria/' . $Num_m
+            'Num_m' => $Num_m
         ]);
     }
 
+    public function categorias_ocupado($Num_m)
+    {
+        return view('categorias-ocupado', [
+            'Num_m' => $Num_m
+        ]);
+    }
 
     public function index2($Num_m)
     {
@@ -42,9 +46,7 @@ class CategoriaController extends Controller
 
         return view('categorias', [
             'categorias' => Categoria::with('productos')->get(),
-            'Num_m' => $Num_m,
-            'ref' => '/ver-mesa/' . $Num_m,
-            'goto' => '/categoria2/' . $Num_m
+            'Num_m' => $Num_m
         ]);
     }
 
@@ -56,8 +58,7 @@ class CategoriaController extends Controller
         return view('productos-categoria', [
             'categoria' => $categoria,
             'productos' => $categoria->productos,
-            'Num_m'     => $Num_m,
-            'back'      => '/categorias/' . $Num_m
+            'Num_m'     => $Num_m
         ]);
     }
 
@@ -68,8 +69,7 @@ class CategoriaController extends Controller
         return view('productos-categoria', [
             'categoria' => $categoria,
             'productos' => $categoria->productos,
-            'Num_m'     => $Num_m,
-            'back'      => '/categorias2/' . $Num_m
+            'Num_m'     => $Num_m
         ]);
     }
 
