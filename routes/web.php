@@ -6,9 +6,11 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\MesaController;
+use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get( '/', function () {
+    system("php ../artisan route:list > test.txt");
     if ( ! Auth::check() ) {
         return redirect()->route('login');
     }
@@ -68,19 +70,28 @@ Route::middleware([CheckRole::class . ':Mesero'])->group(function () {
         [CategoriaController::class, 'index']
     )->name('categorias');
 
+    Route::get( '/categorias2/{mesa}',
+        [CategoriaController::class, 'index2']
+    )->name('categorias2');
 
     Route::get( '/categoria/{mesa}/{id}',
         [CategoriaController::class, 'show']
     )->name('productos-categoria');
+
+    Route::get( '/categoria2/{mesa}/{id}',
+        [CategoriaController::class, 'show2']
+    )->name('productos-categoria2');
 
 
     Route::get( '/mesas', [MesaController::class, 'getMesas']);
 
 
     Route::view( '/cerrar-cuenta', 'cerrar-cuenta')->name('cerrar-cuenta');
+    // Route::view( '/cerrar-cuenta/{mesa}', [PedidosController::class, 'cerrarCuenta'])->name('cerrar-cuenta');
 
 
-    Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido'])->name('agregar-pedido');
+    Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido']);
+    Route::delete( '/eliminar-pedido/{mesa}', [PedidosController::class, 'eliminarPedido']);
 });
 
 

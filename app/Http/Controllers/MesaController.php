@@ -31,7 +31,8 @@ class MesaController extends Controller
 
             return view("ver-mesa", [
                 'productosPedidos' => PedidoProductos::with('productos')->where('id_pedido', $pedido->id_pedido)->get(),
-                'pedido' => $pedido
+                'pedido' => $pedido,
+                'Num_m' => $id
             ]);
         }
 

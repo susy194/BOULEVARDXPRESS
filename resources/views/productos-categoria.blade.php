@@ -5,7 +5,7 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <a href="{{ url('/categorias/' . $Num_m ) }}" class="button is-light mb-4">
+                    <a href="{{ url($back) }}" class="button is-light mb-4">
                         <span class="icon">
                             <i class="fas fa-arrow-left"></i>
                         </span>
@@ -50,7 +50,7 @@
 
     <!-- Modal de producto -->
     <div class="modal" id="modal-producto">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
             <div class="modal-background" onclick="cerrarModalProducto()"></div>
             <div class="modal-card">
               <header class="modal-card-head has-background-warning" style="justify-content: space-between; align-items: center;">
@@ -113,23 +113,23 @@
         const cantidad = parseInt(document.getElementById('modal-cantidad').value);
         const notas    = document.getElementById('modal-notas').value;
 
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const payload = JSON.stringify({
+          producto: id_actual,
+          cantidad: cantidad,
+          notas   : notas
+        })
+
         const response = await fetch ('/agregar-pedido/' + '{{ $Num_m }}', {
           method: 'POST',
-          body: JSON.stringify({
-            producto: id_actual,
-            cantidad: cantidad,
-            notas   : notas
-          })
+          headers: {
+            'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": token,
+            "Accept": "application/json"
+          },
+          body  : payload
         });
-
-        if ( response ) {
-          const json = await response;
-          console.log('Producto agregado con exito');
-          console.log(json);
-          return;
-        }
-
-        console.log('Error al agregar el producto');
       }
     </script>
 

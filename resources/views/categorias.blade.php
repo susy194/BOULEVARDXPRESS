@@ -4,7 +4,7 @@
     <br><br><br><br>
     <h2 class="title is-1">Iniciar pedido-Categorías de Mesa #{{ $Num_m }}</h2>
     <div class="has-text-left mb-4">
-      <a href="/home-mesero" class="button is-light is-medium">
+      <a href="{{ $ref }}" class="button is-light is-medium">
         <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
         <span class="is-size-5">Cancelar</span>
       </a>
@@ -22,7 +22,7 @@
                                         <i class="fa-solid fa-utensils fa-2x"></i>
                                     </span>
                                     <h5 class="title is-4">{{ $categoria->Categoria }}</h5>
-                                    <a href="{{ url('/categoria/' . $Num_m . '/' . $categoria->Cod_cat) }}" class="button is-info is-fullwidth mt-3">
+                                    <a href="{{ url($goto . '/' . $categoria->Cod_cat) }}" class="button is-info is-fullwidth mt-3">
                                         <i class="fa-solid fa-arrow-right"></i>&nbsp;Ver productos
                                     </a>
                                 </div>

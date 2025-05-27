@@ -9,7 +9,17 @@ class Pedido extends Model
 {
     protected $table      = 'pedidos';
     protected $primaryKey = 'id_pedido';
+    protected $keyType    = 'int';
     public    $timestamps = false;
+
+    protected $fillable = [
+        "id_pedido",
+        "ID_emp",
+        "Fecha",
+        "Hora",
+        "Num_m",
+        "Estado"
+    ];
 
     public function pedidoProducto()
     {

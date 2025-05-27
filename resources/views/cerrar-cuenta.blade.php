@@ -5,15 +5,15 @@
   <h2 class="title is-3 mb-4">
         <i class="fa-solid fa-receipt"></i> Cerrar Cuenta
     </h2>
-  <a href="/ver-mesa" class="button is-light is-medium">
+  <a href="/home-mesero" class="button is-light is-medium">
         <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
-        <span class="is-size-5">Volver a ver-mesa</span>
+        <span class="is-size-5">Volver a mesas</span>
     </a>
-  
+
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-half">
-        
+
         <div class="box">
           <!-- Espacio para la cuenta -->
           <div class="box" style="min-height: 250px; display: flex; align-items: center; justify-content: center; background: #f5f5f5;">
@@ -30,4 +30,4 @@
     </div>
   </div>
 </div>
-@endsection 
+@endsection
