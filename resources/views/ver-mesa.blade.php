@@ -21,7 +21,7 @@
         </div>
 
         <!-- Botones -->
-        <a href="/categorias2/{{ $Num_m }}" class="button is-warning is-fullwidth mb-2 is-large" title="Agregar productos al pedido">
+        <a href="/categorias-ocupado/{{ $Num_m }}" class="button is-warning is-fullwidth mb-2 is-large" title="Agregar productos al pedido">
           Agregar producto&nbsp;<i class="fas fa-plus"></i>
         </button>
 
