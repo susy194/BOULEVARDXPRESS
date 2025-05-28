@@ -13,7 +13,7 @@ $usuarios = [
     <h2 class="title is-4 mb-4">Desbloquear Usuarios</h2>
    </div>
    <div class="has-text-left mt-4 mb-5">
-    <a href="/pagina-principal-admin" class="button is-light is-medium">
+    <a href="/home-admin" class="button is-light is-medium">
         <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
         <span class="is-size-5">Volver al Panel de Administrador</span>
     </a>
@@ -65,4 +65,4 @@ function toggleCandado(btn) {
   }
 }
 </script>
-@endsection 
+@endsection

@@ -1,5 +1,6 @@
 .vscode/
 vendor/
+node_modules/
 .env
 composer.lock
 database/migations/*

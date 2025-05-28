@@ -1,66 +1,95 @@
 @extends('layouts.base')
 
 @section('content')
-@php
-$categorias = [
-    (object)[
-        'Categoria' => 'Entradas',
-        'productos' => [
-            (object)['Nombre' => 'Guacamole', 'PRECIO' => 60],
-            (object)['Nombre' => 'Queso Fundido', 'PRECIO' => 80],
-        ]
-    ],
-    (object)[
-        'Categoria' => 'Platos Fuertes',
-        'productos' => [
-            (object)['Nombre' => 'Tacos al Pastor', 'PRECIO' => 120],
-            (object)['Nombre' => 'Enchiladas', 'PRECIO' => 110],
-        ]
-    ],
-    (object)[
-        'Categoria' => 'Menú Infantil',
-        'productos' => [
-            
-        ]
-    ],
-];
-@endphp
 <div class="section">
-   <h2 class="title is-2 has-text-weight-bold mb-4">Administración del Menú</h2>
-   <div class="has-text-left mt-4">
-    <a href="/pagina-principal-admin" class="button is-light is-medium">
-        <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
-        <span class="is-size-5">Volver al Panel de Administrador</span>
-    </a>
-   </div>
-  <div class="container">
-    <div class="is-flex is-justify-content-flex-end mb-4">
-      <a href="/admin-menu/agregar" class="button" style="background-color: #38c172; color: #fff; font-weight: 600; font-size: 1.1rem;">
-        <span class="icon"><i class="fas fa-plus"></i></span>
-        <span class="is-size-5">Agregar producto</span>
-      </a>
-    </div>
-    
-    <div class="box" style="box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
-      @foreach($categorias as $categoria)
-        <h3 class="title is-4 mt-5 mb-3">{{ $categoria->Categoria }}</h3>
-        <div class="box" style="background: #f9f9f9; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
-          @forelse($categoria->productos as $producto)
-            <div class="is-flex is-align-items-center is-justify-content-space-between mb-3" style="gap: 1.2rem;">
-              <div class="is-flex is-align-items-center" style="gap: 0.7rem;">
-                <button class="button is-medium" style="background-color: #ff4f81; color: #fff; font-weight: bold; border: none; font-size: 1.3rem;">
-                  <span class="icon is-medium"><i class="fas fa-minus"></i></span>
-                </button>
-                <span class="has-text-weight-semibold is-size-4">{{ $producto->Nombre }}</span>
-              </div>
-              <span class="tag is-info is-large" style="font-size: 1.3rem;">${{ number_format($producto->PRECIO, 2) }}</span>
+    <div class="container">
+        <h1 class="title is-2 mb-4">Administración del Menú</h1>
+        <a href="{{ route('home-admin') }}" class="button is-light mb-4">
+            <span class="icon"><i class="fas fa-arrow-left"></i></span>
+            <span>Volver al Panel de Administrador</span>
+        </a>
+        <a href="{{ route('admin-menu.agregar') }}" class="button is-success mb-4" style="float:right;">
+            <span class="icon"><i class="fas fa-plus"></i></span>
+            <span>Agregar producto</span>
+        </a>
+        <div style="clear:both"></div>
+
+        @foreach($categorias as $categoria)
+            <div class="box mb-5">
+                <h2 class="title is-4 mb-3">{{ $categoria->Categoria }}</h2>
+                @if($categoria->productos->count() > 0)
+                    <div>
+                        @foreach($categoria->productos as $producto)
+                            <div class="is-flex is-align-items-center is-justify-content-space-between mb-3 producto-row" style="background: #fafbfc; border-radius: 12px; padding: 0.7rem 1.2rem;" data-id="{{ $producto->id_prod }}">
+                                <div class="is-flex is-align-items-center" style="gap: 1rem;">
+                                    <button class="button is-danger is-rounded" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
+                                        onclick="confirmarEliminarProducto({{ $producto->id_prod }}, this.closest('.producto-row'))">
+                                        <span class="icon"><i class="fas fa-minus"></i></span>
+                                    </button>
+                                    <span class="is-size-5 has-text-weight-semibold">{{ $producto->Nombre }}</span>
+                                </div>
+                                <span class="tag is-info is-medium" style="font-size: 1.1rem; min-width: 80px; text-align: right;">
+                                    ${{ number_format($producto->PRECIO, 2) }}
+                                </span>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="has-text-grey">No hay productos en esta categoría.</p>
+                @endif
             </div>
-          @empty
-            <p class="has-text-grey is-size-5">No hay productos en esta categoría.</p>
-          @endforelse
-        </div>
-      @endforeach
+        @endforeach
     </div>
+</div>
+
+<!-- Modal de confirmación para eliminar producto -->
+<div class="modal" id="modal-eliminar-producto">
+  <div class="modal-background" onclick="cerrarModalEliminarProducto()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-danger">
+      <p class="modal-card-title has-text-weight-bold">Confirmar eliminación</p>
+      <button class="delete" aria-label="close" onclick="cerrarModalEliminarProducto()"></button>
+    </header>
+    <section class="modal-card-body">
+      <p>¿Estás seguro de eliminar este producto del menú?</p>
+    </section>
+    <footer class="modal-card-foot" style="justify-content: flex-end; gap: 1rem;">
+      <button type="button" class="button is-danger" onclick="eliminarProducto()">Eliminar</button>
+      <button class="button" onclick="cerrarModalEliminarProducto()">Cancelar</button>
+    </footer>
   </div>
 </div>
-@endsection 
+
+<script>
+let productoEliminarId = null;
+let productoEliminarElem = null;
+
+function confirmarEliminarProducto(id, elem) {
+    productoEliminarId = id;
+    productoEliminarElem = elem;
+    document.getElementById('modal-eliminar-producto').classList.add('is-active');
+}
+
+function cerrarModalEliminarProducto() {
+    document.getElementById('modal-eliminar-producto').classList.remove('is-active');
+    productoEliminarId = null;
+    productoEliminarElem = null;
+}
+
+async function eliminarProducto() {
+    if (!productoEliminarId) return;
+    const token = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
+    const response = await fetch(`/admin-menu/producto/${productoEliminarId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json'
+        }
+    });
+    if (response.ok) {
+        productoEliminarElem.remove();
+        cerrarModalEliminarProducto();
+    }
+}
+</script>
+@endsection

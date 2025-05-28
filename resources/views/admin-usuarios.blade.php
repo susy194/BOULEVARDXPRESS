@@ -36,7 +36,7 @@ $usuarios = [
       </a>
     </div>
     <div class="has-text-left mt-4 mb-5">
-      <a href="/pagina-principal-admin" class="button is-large is-light">
+      <a href="/home-admin" class="button is-large is-light">
         <span class="icon"><i class="fas fa-arrow-left"></i></span>
         <span>Volver al Panel de Administrador</span>
       </a>
@@ -66,7 +66,7 @@ $usuarios = [
         </div>
       @endforeach
     </div>
-    
+
   </div>
 </div>
-@endsection 
+@endsection

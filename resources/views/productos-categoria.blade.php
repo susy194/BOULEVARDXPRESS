@@ -112,24 +112,36 @@
       async function agregarProducto() {
         const cantidad = parseInt(document.getElementById('modal-cantidad').value);
         const notas    = document.getElementById('modal-notas').value;
-
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         const payload = JSON.stringify({
           producto: id_actual,
           cantidad: cantidad,
           notas   : notas
-        })
-
-        const response = await fetch ('/agregar-pedido/' + '{{ $Num_m }}', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            "X-CSRF-TOKEN": token,
-            "Accept": "application/json"
-          },
-          body  : payload
         });
+
+        try {
+          const response = await fetch('/agregar-pedido/' + '{{ $Num_m }}', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "X-CSRF-TOKEN": token,
+              "Accept": "application/json"
+            },
+            body: payload
+          });
+
+          if (response.ok) {
+            // Redirige siempre a la vista de categorías ocupada
+            window.location.href = '/categorias2/{{ $Num_m }}';
+          } else {
+            const errorText = await response.text();
+            alert('Error al agregar el producto: ' + errorText);
+            return;
+          }
+        } catch (error) {
+          alert('Error de red');
+        }
       }
     </script>
 

@@ -8,9 +8,15 @@ use App\Models\Producto;
 class PedidoProductos extends Model
 {
     protected $table      = 'pedidos_productos';
-    protected $primaryKey = 'id_pedido';
     public    $timestamps = false;
 
+    protected $fillable = [
+        'id_pedido',
+        'id_prod',
+        'cant_prod',
+        'Nota_prod',
+        'Estado_prod',
+    ];
 
     public function productos()
     {

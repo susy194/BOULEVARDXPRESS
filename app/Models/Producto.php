@@ -11,9 +11,13 @@ class Producto extends Model
     protected $primaryKey = 'id_prod';
     public    $timestamps = false;
 
+    protected $fillable = [
+        'Descripcion', 'Nombre', 'PRECIO', 'Cod_cat'
+    ];
+
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class, 'Cod_cat');
+        return $this->belongsTo(Categoria::class, 'Cod_cat', 'Cod_cat');
     }
 
     public function pedidos()

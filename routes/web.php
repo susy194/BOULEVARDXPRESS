@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NuevoPedidoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ChefController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminMenuController;
 
 Route::get( '/', function () {
     if ( ! Auth::check() ) {
@@ -49,9 +51,8 @@ Route::get( '/logout',
 
 
 Route::middleware([CheckRole::class . ':Chef'])->group(function () {
-    Route::get('/home-chef', function () {
-        return view('pagina-principal-chef');
-    })->name('home-chef');
+    Route::get('/home-chef',[ChefController::class,'CargarPagina'])->name('home-chef');
+    Route::get('/api/getmesas',[ChefController::class,'ObtenerComanda']);
 });
 
 
@@ -99,7 +100,7 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
         return view('pagina-principal-admin');
     })->name('home-admin');
 
-    Route::view('/admin-menu', 'admin-menu')->name('admin-menu');
+    Route::get('/admin-menu', [AdminMenuController::class, 'index'])->name('admin.menu');
 
     Route::view('/admin-menu/agregar', 'admin-menu-agregar')->name('admin-menu.agregar');
 
@@ -110,4 +111,6 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
     Route::view('/admin/usuarios/agregar', 'agregar-usuario')->name('admin.usuarios.agregar');
 
     Route::view('/admin/reporte-ventas', 'reporte-ventas')->name('admin.reporte-ventas');
+
+    Route::delete('/admin-menu/producto/{id}', [AdminMenuController::class, 'eliminarProducto'])->name('admin-menu.eliminar-producto');
 });

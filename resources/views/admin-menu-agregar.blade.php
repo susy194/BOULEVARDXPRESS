@@ -17,11 +17,11 @@ $categorias = [
         <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
         <span class="is-size-5">Volver a administración de menú</span>
     </a>
-   </div> 
+   </div>
   <div class="container">
     <div class="column is-half is-offset-one-quarter">
       <div class="box">
-        
+
         <form method="POST" action="#">
           @csrf
           <div class="field">
@@ -68,4 +68,4 @@ $categorias = [
     </div>
   </div>
 </div>
-@endsection 
+@endsection

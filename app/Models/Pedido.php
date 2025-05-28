@@ -23,6 +23,6 @@ class Pedido extends Model
 
     public function pedidoProducto()
     {
-        return this->hasMany(PedidoProducto::class, 'id_pedido');
+        return $this->hasMany(PedidoProducto::class, 'id_pedido');
     }
 }
