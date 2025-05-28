@@ -42,7 +42,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        window.Echo.private('mesasInfo')
+        window.Echo.private(`App.Models.User.{{ auth()->user()->id }}`)
             .listen('GetMesas', (e) => {
                 console.log('Evento recibido:', e);
             });

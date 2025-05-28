@@ -28,11 +28,14 @@ class AdminMenuController extends Controller
             return response()->json(['success' => false, 'message' => 'Producto no encontrado'], 404);
         }
 
-        $producto->delete();
-        \Log::info('Producto eliminado', ['id' => $id]);
+        // Elimina los hijos primero
+        \DB::table('pedidos_productos')->where('id_prod', $id)->delete();
+
+        $deleted = $producto->delete();
+        \Log::info('Resultado delete()', ['deleted' => $deleted]);
 
         if ($request->ajax()) {
-            return response()->json(['success' => true]);
+            return response()->json(['success' => (bool)$deleted]);
         }
         return back()->with('success', 'Producto eliminado');
     }
