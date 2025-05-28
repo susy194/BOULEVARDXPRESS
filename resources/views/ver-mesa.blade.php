@@ -42,7 +42,7 @@
             <p><strong>Comanda #{{ $pedido->id_pedido ?? 'N/A' }}</strong></p>
             <ul>
               @forelse($productosPedidos as $productoPedido)
-              <li style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" data-id="{{ $productoPedido->id_pedido }}">
+              <li style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" data-id-pedido="{{ $productoPedido->id_pedido }}" data-id-prod="{{ $productoPedido->id_prod }}">
                   <span>
                     <span class="status-{{ $pedido->Estado ?? 'pendiente' }}">{{ $pedido->Estado }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     {{ $productoPedido->cant_prod }} × {{ $productoPedido->Nombre }}
@@ -77,50 +77,77 @@
     </section>
     <footer class="modal-card-foot" style="justify-content: flex-end; gap: 1rem;">
       <button type="submit" class="button is-danger" onclick="eliminarProducto()">Aceptar</button>
-      <button class="button" onclick="elimincerrarModalEliminarProductoarProducto()">Cancelar</button>
+      <button class="button" onclick="cerrarModalEliminarProducto()">Cancelar</button>
     </footer>
   </div>
 </div>
 
 <script>
-  let productoEliminar = 0;
+  let productoEliminar = {
+    id_pedido: 0,
+    id_prod: 0
+  };
 
   function confirmarEliminarProducto(idPedido, idProd) {
-    // const form = document.getElementById('form-eliminar-producto');
-    // form.action = `/pedido/${idPedido}/producto/${idProd}`;
     document.getElementById('modal-eliminar-producto').classList.add('is-active');
-    productoEliminar = idPedido;
+    productoEliminar.id_pedido = idPedido;
+    productoEliminar.id_prod = idProd;
   }
+
   function cerrarModalEliminarProducto() {
     document.getElementById('modal-eliminar-producto').classList.remove('is-active');
+    productoEliminar.id_pedido = 0;
+    productoEliminar.id_prod = 0;
   }
 
   async function eliminarProducto() {
-    if (  productoEliminar == 0 ) {
+    if (productoEliminar.id_pedido === 0 || productoEliminar.id_prod === 0) {
+      alert('Error: No se ha seleccionado un producto para eliminar');
       return;
     }
 
-    const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        id_pedido: productoEliminar
-      })
-    });
+    try {
+      console.log('Enviando datos:', {
+        id_pedido: productoEliminar.id_pedido,
+        id_prod: productoEliminar.id_prod
+      });
 
-    const li = document.querySelector(`[data-id="${productoEliminar}"]`);
-    li.remove();
-    productoEliminar = 0;
+      const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          id_pedido: productoEliminar.id_pedido,
+          id_prod: productoEliminar.id_prod
+        })
+      });
 
-    const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
-    const comanda_ul = document.getElementById('comanda').querySelector('ul');
+      const data = await response.json();
+      console.log('Respuesta del servidor:', data);
 
-    if ( comanda_length == 0 ) {
-      comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+      if (response.ok) {
+        // Eliminar el elemento del DOM
+        const li = document.querySelector(`[data-id-pedido="${productoEliminar.id_pedido}"][data-id-prod="${productoEliminar.id_prod}"]`);
+        if (li) li.remove();
+
+        // Verificar si quedan productos
+        const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
+        const comanda_ul = document.getElementById('comanda').querySelector('ul');
+
+        if (comanda_length === 0) {
+          comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+        }
+
+        cerrarModalEliminarProducto();
+      } else {
+        alert('Error al eliminar el producto: ' + (data.message || 'Error desconocido'));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al eliminar el producto: ' + error.message);
     }
   }
 </script>

@@ -122,14 +122,14 @@
 
         try {
           const response = await fetch('/agregar-pedido/' + '{{ $Num_m }}', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              "X-CSRF-TOKEN": token,
-              "Accept": "application/json"
-            },
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": token,
+            "Accept": "application/json"
+          },
             body: payload
-          });
+        });
 
           if (response.ok) {
             // Redirige siempre a la vista de categorías ocupada

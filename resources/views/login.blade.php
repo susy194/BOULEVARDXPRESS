@@ -88,7 +88,7 @@
         window.location.href = json.redirect;
 
       } else {
-        document.getElementById("credentials-error").textContent = "Credenciales Incorrectas";
+        document.getElementById("credentials-error").textContent = "Credenciales Incorrectas, ingresa los datos nuevamente";
 
       }
 

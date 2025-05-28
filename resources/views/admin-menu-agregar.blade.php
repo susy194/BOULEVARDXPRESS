@@ -11,13 +11,15 @@ $categorias = [
 ];
 @endphp
 <div class="section">
-  <h2 class="title is-3 mb-4">Agregar Producto</h2>
-    <div class="has-text-left mt-4">
-    <a href="/admin-menu" class="button is-light is-medium">
-        <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
-        <span class="is-size-5">Volver a administración de menú</span>
+  <h2 class="title is-2 mb-4">
+             <i class="fa-solid fa-drumstick-bite"></i>Agregar Producto
+        </h2>
+  <div class="has-text-left mt-4 mb-5">
+    <a href="/admin-menu" class="button is-large is-light">
+      <span class="icon"><i class="fas fa-arrow-left"></i></span>
+      <span>Volver a administración de menú</span>
     </a>
-   </div>
+  </div>
   <div class="container">
     <div class="column is-half is-offset-one-quarter">
       <div class="box">
@@ -25,43 +27,56 @@ $categorias = [
         <form method="POST" action="#">
           @csrf
           <div class="field">
-            <label class="label">Nombre</label>
-            <div class="control">
-              <input class="input" type="text" name="nombre" required>
+              <label class="label is-large">Nombre</label>
+              <div class="control has-icons-left">
+                  <input class="input is-large" type="text" name="nombre_emp" required placeholder="Ingrese el nombre del nuevo producto">
+                  <span class="icon is-left">
+                  <i class="fa-solid fa-utensils"></i>
+                  </span>
+              </div>
+          </div>
+          <div class="field">
+            <label class="label is-large">Descripción</label>
+            <div class="control has-icons-left">
+              <input class="input is-large" type="text" name="descripcion" required placeholder="Ingrese la descripción del nuevo producto">
+                  <span class="icon is-left">
+                  <i class="fas fa-info-circle"></i>
+                  </span>
             </div>
           </div>
           <div class="field">
-            <label class="label">Descripción</label>
-            <div class="control">
-              <textarea class="textarea" name="descripcion" required></textarea>
+            <label class="label is-large">Precio</label>
+            <div class="control has-icons-left">
+              <input class="input is-large" type="number" name="precio" min="0" step="0.01" required placeholder="Ingrese el precio del nuevo producto">
+                  <span class="icon is-left">
+                  <i class="fa-solid fa-money-check-dollar"></i>
+                  </span>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Precio</label>
-            <div class="control">
-              <input class="input" type="number" name="precio" min="0" step="0.01" required>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Categoría</label>
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select name="categoria" required>
-                  <option value="">Selecciona una categoría</option>
-                  @foreach($categorias as $cat)
-                    <option value="{{ $cat->Cod_cat }}">{{ $cat->Categoria }}</option>
-                  @endforeach
-                </select>
+          <div class="field is-large" style="font-size: 1.25rem;">
+              <label class="label is-large">Categoría</label>
+              <div class="control has-icons-left">
+                <div class="select is-fullwidth is-large">
+                  <select name="categoria" required style="font-size: 1.2rem; height: 3rem;">
+                    <option value=" "> Selecciona una categoría para el producto</option>
+                    @foreach($categorias as $cat)
+                      <option value="{{ $cat->Cod_cat }}">{{ $cat->Categoria }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <span class="icon is-left is-large">
+                  <i class="fa-solid fa-list fa-xl"></i>
+                </span>
               </div>
             </div>
-          </div>
-          <div class="field is-grouped is-grouped-right mt-5">
+
             <div class="control">
-              <button type="submit" class="button is-success">Agregar</button>
+              <button type="submit" class="button is-success is-large"
+              style="background: #49c68f; color: white; width: 100%; font-size: 1.5rem; padding: 1.25rem 1.5rem;">
+                    Agregar
+              </button>
             </div>
-            <div class="control">
-              <a href="/admin-menu" class="button is-light">Cancelar</a>
-            </div>
+
           </div>
         </form>
       </div>

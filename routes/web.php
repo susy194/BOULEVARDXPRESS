@@ -106,9 +106,9 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
 
     Route::view('/admin/desbloquear-usuarios', 'desbloquear-usuarios')->name('admin.desbloquear-usuarios');
 
-    Route::view('/admin/usuarios', 'admin-usuarios')->name('admin.usuarios');
+    Route::get('/admin/usuarios', [App\Http\Controllers\AdminUsuariosController::class, 'index'])->name('admin.usuarios');
 
-    Route::view('/admin/usuarios/agregar', 'agregar-usuario')->name('admin.usuarios.agregar');
+    Route::view('/admin/usuarios/agregar', 'admin-usuarios-agregar')->name('admin.usuarios.agregar');
 
     Route::view('/admin/reporte-ventas', 'reporte-ventas')->name('admin.reporte-ventas');
 

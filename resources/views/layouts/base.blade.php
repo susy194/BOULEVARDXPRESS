@@ -20,13 +20,13 @@
             <div class="container">
                 <div class="columns is-vcentered">
                     <div class="column has-text-left">
-                        <a id="toggleSidebar" class="button is-primary icon-button-sq color-button"><i class="fa-solid fa-bars"></i></a>
+                        <a id="toggleSidebar" class="button is-primary is-large icon-button-sq color-button"><i class="fa-solid fa-bars"></i></a>
                     </div>
                     <div class="column has-text-centered">
                         <h2 class="title is-2">Fuente de Boulevard</h2>
                     </div>
                     <div class="column has-text-right">
-                        <a href="#" class="button is-primary icon-button-sq color-button"><i class="fa-solid fa-bell"></i></a>
+                        <a href="#" class="button is-primary  is-large icon-button-sq color-button"><i class="fa-solid fa-bell"></i></a>
                     </div>
                 </div>
             </div>

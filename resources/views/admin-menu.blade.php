@@ -3,18 +3,20 @@
 @section('content')
 <div class="section">
     <div class="container">
-        <h1 class="title is-2 mb-4">Administración del Menú</h1>
-        <a href="{{ route('home-admin') }}" class="button is-light mb-4">
-            <span class="icon"><i class="fas fa-arrow-left"></i></span>
-            <span>Volver al Panel de Administrador</span>
+        <h2 class="title is-2 mb-4">
+             <i class="fa-solid fa-bowl-food"></i> Administración del Menú
+        </h2>
+     <a href="{{ route('home-admin') }}"class="button is-light is-medium mb-4">
+            <span class="icon is-medium"><i class="fas fa-arrow-left fa-lg"></i></span>
+            <span class="has-text-weight-semibold">Volver al Panel de Administrador</span>
         </a>
-        <a href="{{ route('admin-menu.agregar') }}" class="button is-success mb-4" style="float:right;">
-            <span class="icon"><i class="fas fa-plus"></i></span>
+        <a href="{{ route('admin-menu.agregar') }}" class="button is-success is-medium mb-4" style="float:right;">
+        <span class="icon is-medium"><i class="fas fa-plus"></i></span>
             <span>Agregar producto</span>
-        </a>
+      </a>
         <div style="clear:both"></div>
 
-        @foreach($categorias as $categoria)
+      @foreach($categorias as $categoria)
             <div class="box mb-5">
                 <h2 class="title is-4 mb-3">{{ $categoria->Categoria }}</h2>
                 @if($categoria->productos->count() > 0)
@@ -25,7 +27,7 @@
                                     <button class="button is-danger is-rounded" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
                                         onclick="confirmarEliminarProducto({{ $producto->id_prod }}, this.closest('.producto-row'))">
                                         <span class="icon"><i class="fas fa-minus"></i></span>
-                                    </button>
+                </button>
                                     <span class="is-size-5 has-text-weight-semibold">{{ $producto->Nombre }}</span>
                                 </div>
                                 <span class="tag is-info is-medium" style="font-size: 1.1rem; min-width: 80px; text-align: right;">
@@ -33,12 +35,12 @@
                                 </span>
                             </div>
                         @endforeach
-                    </div>
+              </div>
                 @else
                     <p class="has-text-grey">No hay productos en esta categoría.</p>
                 @endif
-            </div>
-        @endforeach
+        </div>
+      @endforeach
     </div>
 </div>
 
