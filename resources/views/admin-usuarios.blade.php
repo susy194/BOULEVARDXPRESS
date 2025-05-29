@@ -2,18 +2,22 @@
 
 @section('content')
 <div class="section">
+   <h2 class="title is-2 has-text-weight-bold mb-5">
+             <i class="fa-solid fa-users"></i>Administrar Usuarios
+        </h2>
     <div class="container">
         <div class="is-flex is-justify-content-space-between is-align-items-center mb-4">
-            <a href="{{ route('home-admin') }}" class="button is-light">
-                <span class="icon"><i class="fas fa-arrow-left"></i></span>
-                <span>Volver al Panel de Administrador</span>
-            </a>
-            <a href="{{ route('admin.usuarios.agregar') }}" class="button" style="background-color: #ff5e9c; color: white;">
-                <span class="icon"><i class="fas fa-plus"></i></span>
-                <span>Agregar usuario</span>
+            <a href="{{ route('home-admin') }}"class="button is-light is-medium mb-4">
+              <span class="icon is-medium"><i class="fas fa-arrow-left fa-lg"></i></span>
+              <span class="has-text-weight-semibold">Volver al Panel de Administrador</span>
+           </a>
+            <a href="{{ route('admin.usuarios.agregar') }}" class="button is-success is-medium mb-4" style="background-color: #ff5e9c; color: white;">
+              <span class="icon is-medium"><i class="fas fa-plus"></i></span>
+              <span>Agregar usuario</span>
             </a>
         </div>
-        <h2 class="title is-2 has-text-weight-bold mb-5">Administrar Usuarios</h2>
+
+
         <div class="columns is-multiline">
             @foreach($usuarios as $usuario)
             <div class="column is-4-desktop is-6-tablet is-12-mobile">
@@ -32,7 +36,8 @@
                         </button>
                     </div>
                     <div class="content ml-2">
-                        <p class="is-size-5"><strong>Usuario:</strong> {{ $usuario->Usuario }}</p>
+                        <p class="is-size-5"><strong>Usuario:</strong> {{ $usuario->usuario }}</p>
+                        <p class="is-size-5"><strong>Contraseña:</strong> {{ $usuario->password }}</p>
                         <p class="is-size-5"><strong>Dirección:</strong> {{ $usuario->Direccion }}</p>
                         <p class="is-size-5"><strong>Teléfono:</strong> {{ $usuario->TELEFONO }}</p>
                         <p class="is-size-5"><strong>Tipo de usuario:</strong> {{ $usuario->Tipo_Us }}</p>

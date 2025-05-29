@@ -39,4 +39,29 @@ class AdminMenuController extends Controller
         }
         return back()->with('success', 'Producto eliminado');
     }
+
+    public function create()
+    {
+        $categorias = \DB::table('CATEGORIA')->orderBy('Categoria')->get();
+        return view('admin-menu-agregar', compact('categorias'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'Cod_cat' => 'required|exists:CATEGORIA,Cod_cat',
+            'Nombre' => 'required|max:100',
+            'Descripcion' => 'required|max:1000',
+            'PRECIO' => 'required|integer|min:0|max:9999',
+        ]);
+
+        \DB::table('PRODUCTOS')->insert([
+            'Cod_cat' => $request->Cod_cat,
+            'Nombre' => $request->Nombre,
+            'Descripcion' => $request->Descripcion,
+            'PRECIO' => $request->PRECIO,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }
