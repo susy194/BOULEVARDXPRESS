@@ -88,13 +88,16 @@ $categorias = [
 <div class="modal" id="modal-confirmar">
     <div class="modal-background"></div>
     <div class="modal-card">
-        <header class="modal-card-head"><p class="modal-card-title">Confirmar</p></header>
-        <section class="modal-card-body">
+        <header class="modal-card-head">
+            <p class="modal-card-title  is-size-4" >Confirmar</p>
+        </header>
+        <section class="modal-card-body is-size-5">
             ¿Estás seguro de agregar el producto?
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success" id="btn-aceptar-confirmar">Aceptar</button>
-            <button class="button" id="btn-cancelar-confirmar">Cancelar</button>
+            <button class="button is-success is-medium" style="background-color: #49c68f; color: white;margin-right: 12px;" id="btn-aceptar-confirmar">Aceptar</button>
+
+            <button class="button is-medium" id="btn-cancelar-confirmar">Cancelar</button>
         </footer>
     </div>
 </div>
@@ -103,12 +106,14 @@ $categorias = [
 <div class="modal" id="modal-exito">
     <div class="modal-background"></div>
     <div class="modal-card">
-        <header class="modal-card-head"><p class="modal-card-title">¡Éxito!</p></header>
-        <section class="modal-card-body">
+        <header class="modal-card-head">
+            <p class="modal-card-title is-size-4">¡Éxito!</p>
+        </header>
+        <section class="modal-card-body is-size-5">
             El producto se ha agregado correctamente.
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success" id="btn-aceptar-exito">Aceptar</button>
+            <button class="button is-success s-medium" style="background-color: #49c68f; color: white;" id="btn-aceptar-exito">Aceptar</button>
         </footer>
     </div>
 </div>

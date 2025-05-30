@@ -143,7 +143,11 @@
 
         // Función para enviar el pedido
         function enviarPedido() {
-            window.location.href = '/ver-mesa/{{ $Num_m }}';
+            document.getElementById('modal-exito-pedido').classList.add('is-active');
+            setTimeout(function() {
+                document.getElementById('modal-exito-pedido').classList.remove('is-active');
+                window.location.href = '/ver-mesa/{{ $Num_m }}';
+            }, 1000);
         }
     </script>
 
@@ -218,4 +222,18 @@
           }
         }
     </script>
+
+    <!-- Modal de éxito para enviar pedido -->
+    <div class="modal" id="modal-exito-pedido">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 600px; background-color: #e0f7fa; border-radius: 12px;">
+    <header class="modal-card-head" style="background-color:#ffd255; color: white;">
+      <p class="modal-card-title">¡Éxito!</p>
+    </header>
+    <section class="modal-card-body" style="font-size: 1.3rem; color:rgb(0, 0, 0);">
+      El pedido fue enviado correctamente
+    </section>
+  </div>
+</div>
+
 @endsection

@@ -11,6 +11,7 @@ use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\AdminUsuariosController;
+use App\Http\Controllers\CerrarCuentaController;
 
 Route::get( '/', function () {
     if ( ! Auth::check() ) {
@@ -88,7 +89,7 @@ Route::middleware([CheckRole::class . ':Mesero'])->group(function () {
 
 
     Route::view( '/cerrar-cuenta', 'cerrar-cuenta')->name('cerrar-cuenta');
-    // Route::view( '/cerrar-cuenta/{mesa}', [PedidosController::class, 'cerrarCuenta'])->name('cerrar-cuenta');
+    Route::get('/cerrar-cuenta/{num_mesa}', [CerrarCuentaController::class, 'cerrarCuenta'])->name('cerrar-cuenta');
 
 
     Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido']);

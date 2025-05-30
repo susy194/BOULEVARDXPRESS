@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="section">
-    <h2 class="title is-3 mb-4">
+    <h2 class="title is-2 mb-4">
             <i class="fa-solid fa-user-plus"></i> Agregar Usuario
         </h2>
-        <a href="{{ route('admin.usuarios') }}" class="button is-light is-medium mb-4">
-            <span class="icon is-medium"><i class="fas fa-arrow-left fa-lg"></i></span>
+        <a href="{{ route('admin.usuarios') }}" class="button is-light is-large mb-4">
+            <span class="icon is-large"><i class="fas fa-arrow-left fa-lg"></i></span>
             <span class="has-text-weight-semibold">Volver a Administración de Usuarios</span>
         </a>
-    <div class="container" style="max-width: 600px;">
+    <div class="container" style="max-width: 800px;">
         <div class="box">
             <form id="form-agregar-usuario" autocomplete="off">
                 @csrf
@@ -75,29 +75,33 @@
 
 <!-- Modal de confirmación -->
 <div class="modal" id="modal-confirmar">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head"><p class="modal-card-title">Confirmar</p></header>
-        <section class="modal-card-body">
-            ¿Estás seguro de agregar el usuario?
-        </section>
-        <footer class="modal-card-foot">
-            <button class="button is-success" id="btn-aceptar-confirmar">Aceptar</button>
-            <button class="button" id="btn-cancelar-confirmar">Cancelar</button>
-        </footer>
-    </div>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title is-size-4">Confirmar</p>
+    </header>
+    <section class="modal-card-body is-size-5">
+      ¿Estás seguro de agregar el usuario?
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success is-medium" style="background-color: #ff5e9c; color: white;margin-right: 12px;" id="btn-aceptar-confirmar">Aceptar</button>
+      <button class="button is-medium" id="btn-cancelar-confirmar">Cancelar</button>
+    </footer>
+  </div>
 </div>
+
 
 <!-- Modal de éxito -->
 <div class="modal" id="modal-exito">
     <div class="modal-background"></div>
     <div class="modal-card">
-        <header class="modal-card-head"><p class="modal-card-title">¡Éxito!</p></header>
-        <section class="modal-card-body">
+        <header class="modal-card-head">
+            <p class="modal-card-title is-size-4">¡Éxito!</p></header>
+        <section class="modal-card-body is-size-5">
             El usuario se ha agregado correctamente.
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success" id="btn-aceptar-exito">Aceptar</button>
+            <button class="button is-success" style="background-color: #ff5e9c; color: white;" id="btn-aceptar-exito">Aceptar</button>
         </footer>
     </div>
 </div>
