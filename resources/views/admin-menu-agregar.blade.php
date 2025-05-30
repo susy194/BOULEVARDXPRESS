@@ -105,18 +105,19 @@ $categorias = [
 <!-- Modal de éxito -->
 <div class="modal" id="modal-exito">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title is-size-4">¡Éxito!</p>
+    <div class="modal-card" style="width: 700px; max-height: 80vh;">
+        <header class="modal-card-head" style="background-color: #49c68f; color: white;">
+             <p class="modal-card-title has-text-weight-bold" style="font-size: 1.6rem;">¡Éxito!</p>
         </header>
         <section class="modal-card-body is-size-5">
-            El producto se ha agregado correctamente.
+            <p style="font-size: 1.6rem;">El producto se ha agregado correctamente.</p>
         </section>
-        <footer class="modal-card-foot">
+        <footer class="modal-card-foot" style="justify-content: flex-end;">
             <button class="button is-success s-medium" style="background-color: #49c68f; color: white;" id="btn-aceptar-exito">Aceptar</button>
         </footer>
     </div>
 </div>
+
 
 <script>
 let formData = null;

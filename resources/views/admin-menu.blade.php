@@ -4,7 +4,7 @@
 <div class="section">
     <div class="container">
         <h2 class="title is-2 mb-4">
-             <i class="fa-solid fa-bowl-food"></i> Administración del Menú
+             <i class="fa-solid fa-bowl-food"></i>Modificar producto- Administración del Menú
         </h2>
      <a href="{{ route('home-admin') }}"class="button is-light is-medium mb-4">
             <span class="icon is-medium"><i class="fas fa-arrow-left fa-lg"></i></span>
@@ -29,20 +29,43 @@
                                         <span class="icon"><i class="fas fa-minus"></i></span>
                                     </button>
                                     <button class="button is-warning is-rounded" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
-                                        onclick="mostrarInputPrecio(this, {{ $producto->id_prod }}, {{ $producto->PRECIO }})">
+                                        onclick="mostrarInputPrecio({{ $producto->id_prod }})">
                                         <span class="icon"><i class="fas fa-dollar-sign"></i></span>
                                     </button>
                                     <span class="is-size-5 has-text-weight-semibold">{{ $producto->Nombre }}</span>
                                 </div>
-                                <span class="tag is-info is-medium" style="font-size: 1.1rem; min-width: 80px; text-align: right;" id="precio-prod-{{ $producto->id_prod }}">
-                                    ${{ number_format($producto->PRECIO, 2) }}
-                                </span>
+                                <div class="is-flex is-align-items-center" style="gap: 1rem;">
+                                    <span class="tag is-info is-medium" style="font-size: 1.1rem; min-width: 80px; text-align: right;" id="precio-prod-{{ $producto->id_prod }}">
+                                        ${{ number_format($producto->PRECIO, 2) }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="input-precio-row" id="input-precio-row-{{ $producto->id_prod }}" style="display:none; margin-bottom: 1rem;">
-                                <input type="number" min="0" max="9999" step="1" class="input is-medium" id="nuevo-precio-{{ $producto->id_prod }}" value="{{ $producto->PRECIO }}" style="width: 150px; display:inline-block;">
-                                <button class="button is-success is-medium" onclick="actualizarPrecio({{ $producto->id_prod }})">Actualizar</button>
-                                <button class="button is-light is-medium" onclick="cancelarActualizarPrecio({{ $producto->id_prod }})">Cancelar</button>
+                            <input
+                                type="number"
+                                class="input"
+                                id="nuevo-precio-{{ $producto->id_prod }}"
+                                placeholder="Nuevo precio"
+                                min="0"
+                                max="9999"
+                                step="1"
+                                style="width: 150px; height: 55px; font-size: 1.1rem; margin-right: 0.5rem;">
+
+                            <button
+                                class="button is-success"
+                                style="height: 65px;"
+                                onclick="actualizarPrecio({{ $producto->id_prod }})">
+                                Actualizar
+                            </button>
+
+                            <button
+                                class="button is-danger"
+                                style="height: 65px;"
+                                onclick="cancelarActualizacionPrecio({{ $producto->id_prod }})">
+                                Cancelar
+                            </button>
                             </div>
+
                         @endforeach
               </div>
                 @else
@@ -56,34 +79,56 @@
 <!-- Modal de confirmación para eliminar producto -->
 <div class="modal" id="modal-eliminar-producto">
   <div class="modal-background" onclick="cerrarModalEliminarProducto()"></div>
-  <div class="modal-card">
-    <header class="modal-card-head has-background-danger">
-      <p class="modal-card-title has-text-weight-bold">Confirmar eliminación</p>
+  <div class="modal-card" style="width: 700px; max-height: 80vh;">
+    <header class="modal-card-head"style="background-color: #49c68f; color: white;">
+      <p class="modal-card-title has-text-weight-bold" style="font-size: 1.6rem;">Confirmar eliminación</p>
       <button class="delete" aria-label="close" onclick="cerrarModalEliminarProducto()"></button>
     </header>
     <section class="modal-card-body">
-      <p>¿Estás seguro de eliminar este producto del menú?</p>
+      <p style="font-size: 1.6rem;">¿Estás seguro de eliminar el producto?</p>
     </section>
     <footer class="modal-card-foot" style="justify-content: flex-end; gap: 1rem;">
-      <button type="button" class="button is-danger" onclick="eliminarProducto()">Eliminar</button>
-      <button class="button" onclick="cerrarModalEliminarProducto()">Cancelar</button>
+      <button type="button" class="button is-danger is-medium" style="background-color: #49c68f; color: white;" onclick="eliminarProducto()">Aceptar</button>
+      <button class="button is-medium " onclick="cerrarModalEliminarProducto()">Cancelar</button>
     </footer>
   </div>
 </div>
 
-<!-- Modal de éxito para precio -->
-<div class="modal" id="modal-exito-precio">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head"><p class="modal-card-title">¡Éxito!</p></header>
+<!-- Modal de éxito para eliminar producto -->
+<div class="modal" id="modal-exito-eliminar">
+  <div class="modal-background" onclick="cerrarModalExitoEliminar()"></div>
+  <div class="modal-card" style="width: 700px; max-height: 80vh;">
+    <header class="modal-card-head" style="background-color: #49c68f; color: white;">
+      <p class="modal-card-title has-text-weight-bold" style="font-size: 1.6rem;">¡Éxito!</p>
+      <button class="delete" aria-label="close" onclick="cerrarModalExitoEliminar()"></button>
+    </header>
     <section class="modal-card-body">
-      El precio se ha actualizado correctamente.
+      <p style="font-size: 1.6rem;">El producto se ha eliminado correctamente.</p>
     </section>
-    <footer class="modal-card-foot">
-      <button class="button is-success" id="btn-aceptar-exito-precio">Aceptar</button>
+    <footer class="modal-card-foot" style="justify-content: flex-end;">
+      <button class="button is-success is-medium" style="background-color: #49c68f; color: white;" id="btn-aceptar-exito-eliminar">Aceptar</button>
     </footer>
   </div>
 </div>
+
+<!-- Modal de éxito para actualizar precio -->
+<div class="modal" id="modal-exito-precio">
+  <div class="modal-background" onclick="cerrarModalExitoPrecio()"></div>
+  <div class="modal-card" style="width: 700px; max-height: 80vh;">
+    <header class="modal-card-head has-background-success">
+      <p class="modal-card-title has-text-weight-bold" style="font-size: 1.6rem;">¡Éxito!</p>
+      <button class="delete" aria-label="close" onclick="cerrarModalExitoPrecio()"></button>
+    </header>
+    <section class="modal-card-body">
+      <p style="font-size: 1.5rem;">El precio se ha actualizado correctamente.</p>
+    </section>
+    <footer class="modal-card-foot" style="justify-content: flex-end;">
+      <button class="button is-success is-medium" id="btn-aceptar-exito-precio">Aceptar</button>
+    </footer>
+  </div>
+</div>
+
+
 
 <script>
 let productoEliminarId = null;
@@ -101,30 +146,60 @@ function cerrarModalEliminarProducto() {
     productoEliminarElem = null;
 }
 
+function cerrarModalExitoEliminar() {
+    document.getElementById('modal-exito-eliminar').classList.remove('is-active');
+}
+
 async function eliminarProducto() {
     if (!productoEliminarId) return;
-    const token = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    const response = await fetch(`/admin-menu/producto/${productoEliminarId}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
+
+    try {
+        const response = await fetch(`/admin-menu/producto/${productoEliminarId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Eliminar la fila del producto y su input de precio
+            const productoRow = document.querySelector(`.producto-row[data-id="${productoEliminarId}"]`);
+            const inputPrecioRow = document.getElementById(`input-precio-row-${productoEliminarId}`);
+
+            if (productoRow && productoRow.parentNode) {
+                // Verificar si quedan productos en la categoría antes de eliminar
+                const categoriaBox = productoRow.closest('.box');
+                if (categoriaBox) {
+                    const productosRestantes = categoriaBox.querySelectorAll('.producto-row');
+                    if (productosRestantes.length === 1) { // Si solo queda este producto
+                        const mensajeNoProductos = document.createElement('p');
+                        mensajeNoProductos.className = 'has-text-grey';
+                        mensajeNoProductos.textContent = 'No hay productos en esta categoría.';
+                        categoriaBox.appendChild(mensajeNoProductos);
+                    }
+                }
+                productoRow.remove();
+            }
+
+            if (inputPrecioRow && inputPrecioRow.parentNode) {
+                inputPrecioRow.remove();
+            }
+
+            // Cerrar el modal de confirmación y mostrar el de éxito
+            cerrarModalEliminarProducto();
+            document.getElementById('modal-exito-eliminar').classList.add('is-active');
+        } else {
+            const data = await response.json();
+            alert('Error al eliminar el producto: ' + (data.message || 'Error desconocido'));
         }
-    });
-    if (response.ok) {
-        productoEliminarElem.remove();
-        cerrarModalEliminarProducto();
+    } catch (error) {
+        alert('Error al eliminar el producto: ' + error.message);
     }
 }
 
-function mostrarInputPrecio(btn, id, precio) {
-    document.querySelectorAll('.input-precio-row').forEach(e => e.style.display = 'none');
+function mostrarInputPrecio(id) {
     document.getElementById('input-precio-row-' + id).style.display = 'block';
-    document.getElementById('nuevo-precio-' + id).focus();
-}
-
-function cancelarActualizarPrecio(id) {
-    document.getElementById('input-precio-row-' + id).style.display = 'none';
 }
 
 function actualizarPrecio(id) {
@@ -163,9 +238,16 @@ function actualizarPrecio(id) {
     });
 }
 
-document.getElementById('btn-aceptar-exito-precio').onclick = function() {
+function cerrarModalExitoPrecio() {
     document.getElementById('modal-exito-precio').classList.remove('is-active');
-    document.querySelectorAll('.input-precio-row').forEach(e => e.style.display = 'none');
+}
+
+document.getElementById('btn-aceptar-exito-eliminar').onclick = function() {
+    cerrarModalExitoEliminar();
 };
+
+function cancelarActualizacionPrecio(id) {
+    document.getElementById('input-precio-row-' + id).style.display = 'none';
+}
 </script>
 @endsection

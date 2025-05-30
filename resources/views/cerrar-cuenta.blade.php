@@ -2,15 +2,34 @@
 
 @section('content')
 <div class="section">
-  <h2 class="title is-3 mb-4">
+  <h2 class="title is-2 mb-4">
         <i class="fa-solid fa-receipt"></i> Cerrar cuenta - mesa #{{ $num_mesa }}
     </h2>
-  <a href="/ver-mesa/{{ $num_mesa }}" class="button is-light is-medium">
-        <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
-        <span class="is-size-5">Volver a mesas</span>
+  <a href="/ver-mesa/{{ $num_mesa }}" class="button is-light is-large">
+        <span class="icon is-large"><i class="fas fa-arrow-left"></i></span>
+        <span class="is-size-3">Volver a mesa #{{ $num_mesa }}</span>
     </a>
 
   <div class="container">
+    <style>
+        table th {
+          font-size: 1.4rem;
+          font-weight: bold;
+        }
+
+        table td {
+          font-size: 1.2rem;
+        }
+
+        tfoot th {
+          font-size: 1.4rem;
+          font-weight: bold;
+        }
+
+        .has-text-grey {
+          font-size: 1.2rem;
+        }
+      </style>
     <div class="columns is-centered">
       <div class="column is-half">
 
@@ -49,7 +68,7 @@
           </div>
           <div class="has-text-right mt-5">
             <button class="button is-info is-medium">
-              <span class="icon"><i class="fas fa-print"></i></span>
+              <span class="icon is-medium"><i class="fas fa-print"></i></span>
               <span>Imprimir cuenta</span>
             </button>
           </div>

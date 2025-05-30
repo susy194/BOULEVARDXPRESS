@@ -4,7 +4,7 @@
 <div class="section">
   <div class="container">
     <h2 class="title is-1">
-        <i class="fa-solid 	fa-tools"></i> Panel de Administrador
+        <i class="fa-solid 	fa-tools"></i> Página principal del Administrador
     </h2>
     <div class="box div-perso">
       <div class="content">
@@ -53,7 +53,7 @@
               </div>
               <h5 class="title is-4"><i class="fa-solid fa-utensils"></i> Administración del Menú</h5>
               <p class="subtitle is-5">Gestiona los productos y su información</p>
-              <a href="/admin-menu" class="button is-success is-large mt-2" title="Botón para ir a la administración del menú"><i class="fa-solid fa-utensils"></i>&nbsp; Administrar</a>
+              <a href="/admin-menu" class="button is-success is-large mt-2" title="Botón para ir a la administración del menú"><i class="fa-solid fa-utensils"></i>&nbsp; Modificar producto</a>
             </div>
           </div>
         </div>

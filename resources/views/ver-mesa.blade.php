@@ -112,18 +112,18 @@
         id_prod: productoEliminar.id_prod
       });
 
-      const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
+    const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
           id_pedido: productoEliminar.id_pedido,
           id_prod: productoEliminar.id_prod
-        })
-      });
+      })
+    });
 
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
@@ -134,11 +134,11 @@
         if (li) li.remove();
 
         // Verificar si quedan productos
-        const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
-        const comanda_ul = document.getElementById('comanda').querySelector('ul');
+    const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
+    const comanda_ul = document.getElementById('comanda').querySelector('ul');
 
         if (comanda_length === 0) {
-          comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+      comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
         }
 
         cerrarModalEliminarProducto();

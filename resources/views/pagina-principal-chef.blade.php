@@ -4,7 +4,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @vite('resources/js/app.js')
 <h2 class="title is-1">
-        <i class="fa-solid fa-utensils"></i> Chef-Resumen de Pedidos
+        <i class="fa-solid fa-utensils"></i> Pantalla principal del Chef-Resumen de Pedidos
     </h2>
     <div class="column">
         <div class="comanda-box">

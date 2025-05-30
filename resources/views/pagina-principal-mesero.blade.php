@@ -3,7 +3,7 @@
 @section('content')
 <br><br><br>
 <h2 class="title is-1">
-    <i class="fa-solid fa-bell-concierge"></i> Mesas
+    <i class="fa-solid fa-bell-concierge"></i> Pantalla principal-Mesas
 </h2>
 
     <br><br><br>

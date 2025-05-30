@@ -18,26 +18,22 @@ class AdminMenuController extends Controller
         return view('admin-menu', compact('categorias'));
     }
 
-    public function eliminarProducto($id, Request $request)
+    public function eliminarProducto($id)
     {
-        \Log::info('Intentando eliminar producto', ['id' => $id]);
-        $producto = Producto::find($id);
+        try {
+            // Primero eliminamos los registros relacionados en PEDIDOS_PRODUCTOS
+            \DB::table('PEDIDOS_PRODUCTOS')->where('id_prod', $id)->delete();
 
-        if (!$producto) {
-            \Log::warning('Producto no encontrado', ['id' => $id]);
-            return response()->json(['success' => false, 'message' => 'Producto no encontrado'], 404);
+            // Luego eliminamos el producto
+            \DB::table('PRODUCTOS')->where('id_prod', $id)->delete();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el producto: ' . $e->getMessage()
+            ], 500);
         }
-
-        // Elimina los hijos primero
-        \DB::table('pedidos_productos')->where('id_prod', $id)->delete();
-
-        $deleted = $producto->delete();
-        \Log::info('Resultado delete()', ['deleted' => $deleted]);
-
-        if ($request->ajax()) {
-            return response()->json(['success' => (bool)$deleted]);
-        }
-        return back()->with('success', 'Producto eliminado');
     }
 
     public function create()
