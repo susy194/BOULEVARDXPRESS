@@ -36,11 +36,10 @@
                         </button>
                     </div>
                     <div class="content ml-2">
-                        <p class="is-size-5"><strong>Usuario:</strong> {{ $usuario->usuario }}</p>
-                        <p class="is-size-5"><strong>Contraseña:</strong> {{ $usuario->password }}</p>
                         <p class="is-size-5"><strong>Dirección:</strong> {{ $usuario->Direccion }}</p>
                         <p class="is-size-5"><strong>Teléfono:</strong> {{ $usuario->TELEFONO }}</p>
                         <p class="is-size-5"><strong>Tipo de usuario:</strong> {{ $usuario->Tipo_Us }}</p>
+
                     </div>
                 </div>
             </div>

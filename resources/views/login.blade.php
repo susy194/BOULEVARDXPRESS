@@ -14,7 +14,7 @@
                         <div class="field">
                             <label class="label is-large">Usuario</label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="username" placeholder="username" required>
+                                <input class="input is-large" type="text" name="username" placeholder="username" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-user"></i>
                                 </span>
@@ -24,7 +24,7 @@
                         <div class="field">
                             <label class="label is-large">Contraseña</label>
                             <div class="control has-icons-left">
-                                <input class="input" type="password" name="password" placeholder="********" required>
+                                <input class="input is-large" type="password" name="password" placeholder="********" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-lock"></i>
                                 </span>

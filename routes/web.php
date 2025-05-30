@@ -10,6 +10,7 @@ use App\Http\Controllers\MesaController;
 use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminMenuController;
+use App\Http\Controllers\AdminUsuariosController;
 
 Route::get( '/', function () {
     if ( ! Auth::check() ) {
@@ -108,9 +109,11 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
 
     Route::get('/admin/desbloquear-usuarios', [App\Http\Controllers\AdminUsuariosController::class, 'desbloquearUsuarios'])->name('admin.desbloquear-usuarios');
 
-    Route::get('/admin/usuarios', [App\Http\Controllers\AdminUsuariosController::class, 'index'])->name('admin.usuarios');
+    Route::get('/admin/usuarios', [AdminUsuariosController::class, 'index'])->name('admin.usuarios');
 
-    Route::view('/admin/usuarios/agregar', 'admin-usuarios-agregar')->name('admin.usuarios.agregar');
+    Route::get('/admin/usuarios/agregar', [AdminUsuariosController::class, 'create'])->name('admin.usuarios.agregar');
+
+    Route::post('/admin/usuarios/store', [AdminUsuariosController::class, 'store'])->name('admin-usuarios.store');
 
     Route::view('/admin/reporte-ventas', 'reporte-ventas')->name('admin.reporte-ventas');
 
