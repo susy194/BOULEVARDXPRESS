@@ -119,4 +119,6 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
     Route::view('/admin/reporte-ventas', 'reporte-ventas')->name('admin.reporte-ventas');
 
     Route::delete('/admin-menu/producto/{id}', [AdminMenuController::class, 'eliminarProducto'])->name('admin-menu.eliminar-producto');
+
+    Route::post('/admin-menu/producto/{id}/precio', [AdminMenuController::class, 'actualizarPrecio'])->name('admin-menu.actualizar-precio');
 });

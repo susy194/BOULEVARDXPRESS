@@ -64,4 +64,17 @@ class AdminMenuController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function actualizarPrecio(Request $request, $id)
+    {
+        $request->validate([
+            'precio' => 'required|integer|min:0|max:9999'
+        ]);
+
+        \DB::table('PRODUCTOS')->where('id_prod', $id)->update([
+            'PRECIO' => $request->precio
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }
