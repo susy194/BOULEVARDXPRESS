@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\AdminUsuariosController;
 use App\Http\Controllers\CerrarCuentaController;
+use App\Http\Controllers\ReporteVentasController;
 
 Route::get( '/', function () {
     if ( ! Auth::check() ) {
@@ -116,9 +117,11 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
 
     Route::post('/admin/usuarios/store', [AdminUsuariosController::class, 'store'])->name('admin-usuarios.store');
 
-    Route::view('/admin/reporte-ventas', 'reporte-ventas')->name('admin.reporte-ventas');
-
     Route::delete('/admin-menu/producto/{id}', [AdminMenuController::class, 'eliminarProducto'])->name('admin-menu.eliminar-producto');
 
     Route::post('/admin-menu/producto/{id}/precio', [AdminMenuController::class, 'actualizarPrecio'])->name('admin-menu.actualizar-precio');
+
+    Route::delete('/admin/usuarios/{id}', [AdminUsuariosController::class, 'eliminarUsuario'])->name('admin.usuarios.eliminar');
+
+    Route::get('/admin/reporte-ventas/generar', [ReporteVentasController::class, 'generarPDF'])->name('admin.reporte-ventas.generar');
 });

@@ -93,4 +93,22 @@ class AdminUsuariosController extends Controller
             ], 500);
         }
     }
+
+    public function eliminarUsuario($id)
+    {
+        try {
+            // Eliminación en Usuarios_Sistema
+            \DB::table('Usuarios_Sistema')->where('ID_emp', $id)->delete();
+
+            // Eliminación en empleado
+            \DB::table('EMPLEADO')->where('ID_emp', $id)->delete();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el usuario: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

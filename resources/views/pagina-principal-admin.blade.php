@@ -20,8 +20,8 @@
               </div>
               <h4 class="title is-4"><i class="fa-solid fa-receipt"></i> Reporte de Ventas</h4>
               <p class="subtitle is-5">Genera informes detallados de ventas</p>
-              <a href="/admin/reporte-ventas" class="button is-info is-large mt-3" title="Botón para generar un pdf con el reporte de ventas">
-                <i class="fa-solid fa-file-invoice"></i>&nbsp; Generar
+              <a href="{{ route('admin.reporte-ventas.generar') }}" class="button is-info is-large mt-3" title="Botón para generar un pdf con el reporte de ventas">
+                <i class="fa-solid fa-file-invoice"></i>&nbsp; Generar Reporte
               </a>
             </div>
           </div>
