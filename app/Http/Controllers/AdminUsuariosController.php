@@ -25,6 +25,7 @@ class AdminUsuariosController extends Controller
             ->join('EMPLEADO', 'Usuarios_Sistema.ID_emp', '=', 'EMPLEADO.ID_emp')
             ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
             ->select('Usuarios_Sistema.*', 'EMPLEADO.nombre_emp', 'Tipo_US.Tipo_Us as rol')
+            ->whereIn('Tipo_US.Tipo_Us', ['Mesero', 'Chef'])
             ->get();
 
         return view('admin.desbloquear-usuarios', compact('usuarios'));
@@ -49,7 +50,6 @@ class AdminUsuariosController extends Controller
             ], 404);
         }
 
-        // Verificar si es administrador
         if ($usuario->rol === 'Administrador') {
             return response()->json([
                 'ok' => false,
@@ -57,7 +57,7 @@ class AdminUsuariosController extends Controller
             ], 403);
         }
 
-        // Cambiar el estado de bloqueo
+
         $nuevoEstado = !$usuario->bloqueado;
 
         DB::table('Usuarios_Sistema')

@@ -71,7 +71,6 @@ async function toggleEstado(btn, idEmp, idTipo, bloqueadoActual) {
         const data = await response.json();
 
         if (data.success) {
-            // Cambia el color del botón y el ícono
             const icon = btn.querySelector('i');
             const tag = btn.closest('.box').querySelector('.estado-tag');
 
@@ -91,7 +90,7 @@ async function toggleEstado(btn, idEmp, idTipo, bloqueadoActual) {
                 tag.style.background = '#ff5e9c';
             }
 
-            // Actualizar el estado para el próximo clic
+
             btn.onclick = function() {
                 toggleEstado(this, idEmp, idTipo, !bloqueadoActual);
             };
