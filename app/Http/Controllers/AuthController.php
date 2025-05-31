@@ -24,17 +24,40 @@ class AuthController extends Controller
 
         $user = User::where('usuario', $request->input('username'))->first();
 
-        if ( $user && $user->password === $request->input('password') ) {
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Credenciales incorrectas'
+            ], 422);
+        }
+
+        // Verificar si el usuario está bloqueado
+        if ($user->bloqueado) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Usuario bloqueado, contacta al administrador para ser desbloqueado'
+            ], 422);
+        }
+
+        if ($user->password === $request->input('password')) {
+            // Reiniciar intentos fallidos si la contraseña es correcta
+            DB::table('Usuarios_Sistema')
+                ->where('usuario', $request->input('username'))
+                ->update([
+                    'intentos_fallidos' => 0,
+                    'bloqueado' => false
+                ]);
+
             Auth::login($user);
             $request->session()->regenerate();
 
             $rol = Auth::user()->rol;
 
-            $ruta = match( $rol ) {
-                'Administrador' => route('home-admin' ),
-                'Chef'          => route('home-chef'  ),
+            $ruta = match($rol) {
+                'Administrador' => route('home-admin'),
+                'Chef'          => route('home-chef'),
                 'Mesero'        => route('home-mesero'),
-                default         => route('login'      )
+                default         => route('login')
             };
 
             return response()->json([
@@ -43,9 +66,36 @@ class AuthController extends Controller
             ]);
         }
 
+        // Incrementar intentos fallidos
+        $intentos = DB::table('Usuarios_Sistema')
+            ->where('usuario', $request->input('username'))
+            ->value('intentos_fallidos') ?? 0;
+
+        $intentos++;
+
+        if ($intentos >= 3) {
+            // Bloquear usuario después de 3 intentos fallidos
+            DB::table('Usuarios_Sistema')
+                ->where('usuario', $request->input('username'))
+                ->update([
+                    'intentos_fallidos' => $intentos,
+                    'bloqueado' => true
+                ]);
+
+            return response()->json([
+                'ok' => false,
+                'error' => 'Usuario bloqueado, contacta al administrador para ser desbloqueado'
+            ], 422);
+        }
+
+        // Actualizar intentos fallidos
+        DB::table('Usuarios_Sistema')
+            ->where('usuario', $request->input('username'))
+            ->update(['intentos_fallidos' => $intentos]);
+
         return response()->json([
-           'ok' => false,
-           'error' => 'Credenciales incorrectas'
+            'ok' => false,
+            'error' => 'Credenciales incorrectas'
         ], 422);
     }
 

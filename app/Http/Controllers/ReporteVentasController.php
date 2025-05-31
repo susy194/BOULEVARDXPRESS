@@ -54,4 +54,15 @@ class ReporteVentasController extends Controller
         // Descargar el PDF
         return $pdf->download('reporte-ventas-' . now()->format('Y-m-d') . '.pdf');
     }
+
+    public function desbloquearUsuarios()
+    {
+        $usuarios = DB::table('Usuarios_Sistema')
+            ->join('EMPLEADO', 'Usuarios_Sistema.ID_emp', '=', 'EMPLEADO.ID_emp')
+            ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
+            ->select('Usuarios_Sistema.*', 'EMPLEADO.nombre_emp', 'Tipo_US.Tipo_Us as rol')
+            ->get();
+
+        return view('admin.desbloquear-usuarios', compact('usuarios'));
+    }
 }

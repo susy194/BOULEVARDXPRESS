@@ -6,11 +6,9 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-                <div class="box  is-fullwidth">
-
+                <div class="box is-fullwidth">
                     <form action="/login" id="login-form" method="POST">
                         @csrf
-
                         <div class="field">
                             <label class="label is-large">Usuario</label>
                             <div class="control has-icons-left">
@@ -38,7 +36,7 @@
                         </div>
 
                         <div class="has-text-centered">
-                            <p id="credentials-error" class="has-text-danger is-size-5" ></p>
+                            <p id="credentials-error" class="has-text-danger is-size-5"></p>
                         </div>
                     </form>
                 </div>
@@ -49,20 +47,19 @@
 
 <!-- Modal de confirmación de inicio de sesión -->
 <div class="modal" id="modal-inicio-sesion">
-  <div class="modal-background" onclick=""></div>
-  <div class="modal-card">
-    <header class="modal-card-head has-background-warning">
-      <p class="modal-card-title has-text-weight-bold">Inicio de sesión</p>
-    </header>
-    <section class="modal-card-body">
-      <p class="is-size-4">Has iniciado sesión correctamente</p>
-    </section>
-  </div>
+    <div class="modal-background" onclick=""></div>
+    <div class="modal-card">
+        <header class="modal-card-head has-background-warning">
+            <p class="modal-card-title has-text-weight-bold">Inicio de sesión</p>
+        </header>
+        <section class="modal-card-body">
+            <p class="is-size-4">Has iniciado sesión correctamente</p>
+        </section>
+    </div>
 </div>
 
 <script>
-
-  document.getElementById('login-form').addEventListener('submit', async function(event) {
+document.getElementById('login-form').addEventListener('submit', async function(event) {
     document.getElementById("credentials-error").textContent = "";
     event.preventDefault();
 
@@ -70,38 +67,33 @@
     const data = new FormData(form);
 
     try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        body: data,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Accept': 'application/json'
+        const response = await fetch('/login', {
+            method: 'POST',
+            body: data,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+
+        const json = await response.json();
+
+        if (json.ok) {
+            document.getElementById("modal-inicio-sesion").classList.add("is-active");
+            await sleep(200);
+            window.location.href = json.redirect;
+        } else {
+            document.getElementById("credentials-error").textContent = json.error || "Credenciales Incorrectas, ingresa los datos nuevamente";
         }
-      });
-
-      const json = await response.json();
-
-      if ( json.ok ) {
-        document.getElementById("modal-inicio-sesion").classList.add("is-active");
-        await sleep(200);
-
-        window.location.href = json.redirect;
-
-      } else {
-        document.getElementById("credentials-error").textContent = "Credenciales Incorrectas, ingresa los datos nuevamente";
-
-      }
-
-    } catch( err ){
-      console.error("Error de red: ", err);
-
+    } catch(err) {
+        console.error("Error de red: ", err);
+        document.getElementById("credentials-error").textContent = "Error de conexión, intenta nuevamente";
     }
+});
 
-  });
-
-  function sleep(ms) {
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
 </script>
 
 @endsection

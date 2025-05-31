@@ -62,9 +62,14 @@
                                                 <em>({{ $productoPedido->Nota_prod }})</em>
                                             @endif
                                         </span>
-                                        <button class="button is-small is-danger ml-2" onclick="confirmarEliminarProducto({{ $productoPedido->id_pedido }}, {{ $productoPedido->id_prod }})">
-                                            <span class="icon"><i class="fas fa-minus"></i></span>
-                                        </button>
+                                        <div class="buttons">
+                                            <button class="button is-small is-info ml-2" onclick="editarProducto({{ $productoPedido->id_pedido }}, {{ $productoPedido->id_prod }}, {{ $productoPedido->cant_prod }}, '{{ $productoPedido->Nota_prod }}')">
+                                                <span class="icon"><i class="fas fa-edit"></i></span>
+                                            </button>
+                                            <button class="button is-small is-danger ml-2" onclick="confirmarEliminarProducto({{ $productoPedido->id_pedido }}, {{ $productoPedido->id_prod }})">
+                                                <span class="icon"><i class="fas fa-minus"></i></span>
+                                            </button>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -235,5 +240,96 @@
     </section>
   </div>
 </div>
+
+<!-- Modal de edición de producto -->
+<div class="modal" id="modal-editar-producto">
+  <div class="modal-background" onclick="cerrarModalEditarProducto()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-info">
+      <p class="modal-card-title has-text-white">Editar Producto</p>
+      <button class="delete" aria-label="close" onclick="cerrarModalEditarProducto()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="field">
+        <label class="label">Cantidad</label>
+        <div class="control has-addons">
+          <button class="button" onclick="cambiarCantidadEdicion(-1)">-</button>
+          <input class="input" type="number" id="editar-cantidad" value="1" min="1" style="width: 60px; text-align: center;">
+          <button class="button" onclick="cambiarCantidadEdicion(1)">+</button>
+        </div>
+      </div>
+      <div class="field mt-3">
+        <label class="label">Notas</label>
+        <div class="control">
+          <input class="input" type="text" id="editar-notas" placeholder="Notas para la cocina (opcional)">
+        </div>
+      </div>
+    </section>
+    <footer class="modal-card-foot" style="justify-content: flex-end; gap: 1rem;">
+      <button class="button is-info" onclick="guardarEdicion()">Guardar Cambios</button>
+      <button class="button" onclick="cerrarModalEditarProducto()">Cancelar</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+let idPedidoEditar = 0;
+let idProdEditar = 0;
+
+function editarProducto(idPedido, idProd, cantidad, notas) {
+  idPedidoEditar = idPedido;
+  idProdEditar = idProd;
+  document.getElementById('editar-cantidad').value = cantidad;
+  document.getElementById('editar-notas').value = notas || '';
+  document.getElementById('modal-editar-producto').classList.add('is-active');
+}
+
+function cerrarModalEditarProducto() {
+  document.getElementById('modal-editar-producto').classList.remove('is-active');
+}
+
+function cambiarCantidadEdicion(delta) {
+  const input = document.getElementById('editar-cantidad');
+  const nuevaCantidad = parseInt(input.value) + delta;
+  if (nuevaCantidad >= 1) {
+    input.value = nuevaCantidad;
+  }
+}
+
+async function guardarEdicion() {
+  if (idPedidoEditar === 0 || idProdEditar === 0) return;
+
+  const cantidad = parseInt(document.getElementById('editar-cantidad').value);
+  const notas = document.getElementById('editar-notas').value;
+  const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  try {
+    const response = await fetch('/editar-producto', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': token,
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id_pedido: idPedidoEditar,
+        id_prod: idProdEditar,
+        cantidad: cantidad,
+        notas: notas
+      })
+    });
+
+    if (response.ok) {
+      cerrarModalEditarProducto();
+      cargarResumenPedido();
+    } else {
+      const error = await response.json();
+      alert('Error al editar el producto: ' + (error.error || 'Error desconocido'));
+    }
+  } catch (error) {
+    alert('Error al editar el producto: ' + error.message);
+  }
+}
+</script>
 
 @endsection

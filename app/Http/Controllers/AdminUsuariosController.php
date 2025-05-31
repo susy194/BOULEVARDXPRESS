@@ -4,39 +4,73 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class AdminUsuariosController extends Controller
 {
     public function index()
     {
-        $usuarios = DB::table('EMPLEADO')
-            ->join('Usuarios_Sistema', 'EMPLEADO.ID_emp', '=', 'Usuarios_Sistema.ID_emp')
+        $usuarios = DB::table('Usuarios_Sistema')
+            ->join('EMPLEADO', 'Usuarios_Sistema.ID_emp', '=', 'EMPLEADO.ID_emp')
             ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
-            ->whereIn('Tipo_US.Tipo_Us', ['Mesero', 'Chef'])
-            ->select(
-                'EMPLEADO.*',
-                'Tipo_US.Tipo_Us',
-                'Usuarios_Sistema.usuario',
-                'Usuarios_Sistema.password'
-            )
+            ->select('Usuarios_Sistema.*', 'EMPLEADO.nombre_emp', 'Tipo_US.Tipo_Us as rol')
             ->get();
-        return view('admin-usuarios', compact('usuarios'));
+
+        return view('admin.usuarios', compact('usuarios'));
     }
 
     public function desbloquearUsuarios()
     {
-        $usuarios = DB::table('EMPLEADO')
-            ->join('Usuarios_Sistema', 'EMPLEADO.ID_emp', '=', 'Usuarios_Sistema.ID_emp')
+        $usuarios = DB::table('Usuarios_Sistema')
+            ->join('EMPLEADO', 'Usuarios_Sistema.ID_emp', '=', 'EMPLEADO.ID_emp')
             ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
-            ->whereIn('Tipo_US.Tipo_Us', ['Mesero', 'Chef'])
-            ->select(
-                'EMPLEADO.nombre_emp',
-                'Tipo_US.Tipo_Us',
-                'Usuarios_Sistema.usuario',
-                'Usuarios_Sistema.password'
-            )
+            ->select('Usuarios_Sistema.*', 'EMPLEADO.nombre_emp', 'Tipo_US.Tipo_Us as rol')
             ->get();
-        return view('desbloquear-usuarios', compact('usuarios'));
+
+        return view('admin.desbloquear-usuarios', compact('usuarios'));
+    }
+
+    public function toggleBloqueo(Request $request)
+    {
+        $request->validate([
+            'usuario' => 'required|string'
+        ]);
+
+        $usuario = DB::table('Usuarios_Sistema')
+            ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
+            ->where('Usuarios_Sistema.usuario', $request->usuario)
+            ->select('Usuarios_Sistema.*', 'Tipo_US.Tipo_Us as rol')
+            ->first();
+
+        if (!$usuario) {
+            return response()->json([
+                'ok' => false,
+                'error' => 'Usuario no encontrado'
+            ], 404);
+        }
+
+        // Verificar si es administrador
+        if ($usuario->rol === 'Administrador') {
+            return response()->json([
+                'ok' => false,
+                'error' => 'No se puede bloquear a un administrador'
+            ], 403);
+        }
+
+        // Cambiar el estado de bloqueo
+        $nuevoEstado = !$usuario->bloqueado;
+
+        DB::table('Usuarios_Sistema')
+            ->where('usuario', $request->usuario)
+            ->update([
+                'bloqueado' => $nuevoEstado,
+                'intentos_fallidos' => 0 // Reiniciar intentos fallidos
+            ]);
+
+        return response()->json([
+            'ok' => true,
+            'bloqueado' => $nuevoEstado
+        ]);
     }
 
     public function create()
@@ -72,7 +106,8 @@ class AdminUsuariosController extends Controller
                 'ID_Tipo' => $request->ID_Tipo,
                 'ID_emp' => $empleado,
                 'usuario' => $request->usuario,
-                'password' => $request->password
+                'password' => $request->password,
+                'bloqueado' => false
             ]);
 
             DB::commit();

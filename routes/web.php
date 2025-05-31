@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\AdminUsuariosController;
 use App\Http\Controllers\CerrarCuentaController;
 use App\Http\Controllers\ReporteVentasController;
+use App\Http\Controllers\EditarProductoController;
 
 Route::get( '/', function () {
     if ( ! Auth::check() ) {
@@ -95,6 +96,8 @@ Route::middleware([CheckRole::class . ':Mesero'])->group(function () {
 
     Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido']);
     Route::delete( '/eliminar-pedido/{mesa}', [PedidosController::class, 'eliminarPedido']);
+
+    Route::post('/editar-producto', [EditarProductoController::class, 'editar'])->name('editar-producto');
 });
 
 
@@ -110,6 +113,8 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
     Route::post('/admin-menu/agregar', [App\Http\Controllers\AdminMenuController::class, 'store'])->name('admin-menu.store');
 
     Route::get('/admin/desbloquear-usuarios', [App\Http\Controllers\AdminUsuariosController::class, 'desbloquearUsuarios'])->name('admin.desbloquear-usuarios');
+
+    Route::post('/admin/toggle-bloqueo', [App\Http\Controllers\AdminUsuariosController::class, 'toggleBloqueo'])->name('admin.toggle-bloqueo');
 
     Route::get('/admin/usuarios', [AdminUsuariosController::class, 'index'])->name('admin.usuarios');
 
