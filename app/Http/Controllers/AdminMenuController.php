@@ -21,10 +21,10 @@ class AdminMenuController extends Controller
     public function eliminarProducto($id)
     {
         try {
-            // Primero eliminamos los registros relacionados en PEDIDOS_PRODUCTOS
+            // ELIMINACION PEDIDOS_PRODUCTOS
             \DB::table('PEDIDOS_PRODUCTOS')->where('id_prod', $id)->delete();
 
-            // Luego eliminamos el producto
+            // ELIMINAR - PEDIDOS PRODUCTOS.
             \DB::table('PRODUCTOS')->where('id_prod', $id)->delete();
 
             return response()->json(['success' => true]);
