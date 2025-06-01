@@ -61,13 +61,13 @@
         <img class="is-rounded mt-4" src="{{ asset('img/ARTEMIS.jpg') }}" alt="Usuario">
       </figure>
       @auth
-      <p class="title is-5 mt-6 mb-0">{{ Auth::user()->usuario }}</p>
-      <p class="subtitle is-6 mb-4">{{ Auth::user()->rol }}</p>
+      <p class="title is-3 mt-6 mb-0">{{ Auth::user()->usuario }}</p>
+      <p class="subtitle is-4 mb-4">{{ Auth::user()->rol }}</p>
       @endauth
 
       <div class="mt-auto">
-        <a href="/logout" class="button is-warning is-fullwidth mb-6">
-          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+        <a href="/logout" class="button is-warning is-fullwidth mb-6 is-large">
+          <span class="icon is-large"><i class="fas fa-sign-out-alt"></i></span>
           <span>Cerrar Sesión</span>
         </a>
       </div>

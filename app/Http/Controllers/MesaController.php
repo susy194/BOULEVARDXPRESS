@@ -27,10 +27,12 @@ class MesaController extends Controller
         }
 
         if ( $mesa->Estado == self::OCUPADO ) {
-            $pedido = Pedido::where('Num_m', $id)->first();
+            $pedido = Pedido::with("PedidoProductos.productos")
+                ->where('Num_m', $id)
+                ->orderBy('id_pedido', 'desc')
+                ->first();
 
             return view("ver-mesa", [
-                'productosPedidos' => PedidoProductos::with('productos')->where('id_pedido', $pedido->id_pedido)->get(),
                 'pedido' => $pedido,
                 'Num_m' => $id
             ]);

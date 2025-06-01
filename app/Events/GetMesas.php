@@ -10,20 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
+use App\Models\PedidoProducto;
+use App\Models\User;
+
 
 class GetMesas implements ShouldBroadcast
 {
     // use Dispatchable, InteractsWithSockets, SerializesModels;
     use InteractsWithSockets, SerializesModels;
 
-    public $data;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($data) {
-        $this->data = $data;
-    }
+    public function __construct(
+        public array  $data
+    ) {}
 
 
     /**
@@ -34,15 +35,14 @@ class GetMesas implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('mesasInfo'),
+            new PrivateChannel('user.Chef')
         ];
     }
-
 
     public function broadcastWith()
     {
         return [
-            'mensaje' => $this->data
+            'data' => $this->data
         ];
     }
 }

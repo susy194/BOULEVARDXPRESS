@@ -11,29 +11,14 @@
 
             <!-- Fila de tarjetas -->
             <div class="columns is-multiline">
-                <!-- Comanda 1 -->
+                <!-- Comanda GÉNERICA -->
                 <div class="column is-3">
                     <div class="box mb-5">
-                        <p><strong>Mesa #</strong></p>
-                        <p>Comanda #1</p>
-                        <br>
+                        <p><strong>Pedido #{{ $pedido->id_pedido ?? 'N/A' }}</strong></p>
 
                     </div>
                 </div>
 
-                <!-- Comanda 2 -->
-                <div class="column is-3">
-                    <div class="box mb-5">
-                        <p><strong>Mesa #2</strong></p>
-                        <p>Comanda #2</p>
-                        <br>
-                        <ul>
-
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
 
 
         </div>
@@ -42,12 +27,21 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        window.Echo.private(`App.Models.User.{{ auth()->user()->id }}`)
+        window.Echo.private("user.Chef")
             .listen('GetMesas', (e) => {
-                console.log('Evento recibido:', e);
+                console.log('Evento recibido:', e.data);
+                for each
             });
 
-        fetch('/api/getmesas');
+        fetch('/api/getmesas')
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        console.log('Evento enviado');
     });
 </script>
 @endsection

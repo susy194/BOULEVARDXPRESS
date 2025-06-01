@@ -13,10 +13,18 @@ class AdminUsuariosController extends Controller
         $usuarios = DB::table('Usuarios_Sistema')
             ->join('EMPLEADO', 'Usuarios_Sistema.ID_emp', '=', 'EMPLEADO.ID_emp')
             ->join('Tipo_US', 'Usuarios_Sistema.ID_Tipo', '=', 'Tipo_US.ID_Tipo')
-            ->select('Usuarios_Sistema.*', 'EMPLEADO.nombre_emp', 'Tipo_US.Tipo_Us as rol')
+            ->select(
+                'Usuarios_Sistema.*',
+                'EMPLEADO.nombre_emp',
+                'EMPLEADO.Foto',
+                'EMPLEADO.Direccion',
+                'EMPLEADO.TELEFONO',
+                'Tipo_US.Tipo_Us as rol'
+            )
+            ->whereIn('Tipo_US.Tipo_Us', ['Mesero', 'Chef'])
             ->get();
 
-        return view('admin.usuarios', compact('usuarios'));
+        return view('admin-usuarios', compact('usuarios'));
     }
 
     public function desbloquearUsuarios()

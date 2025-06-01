@@ -116,9 +116,9 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
 
     Route::post('/admin/toggle-bloqueo', [App\Http\Controllers\AdminUsuariosController::class, 'toggleBloqueo'])->name('admin.toggle-bloqueo');
 
-    Route::get('/admin/usuarios', [AdminUsuariosController::class, 'index'])->name('admin.usuarios');
+    Route::get('/admin/usuarios', [AdminUsuariosController::class, 'index'])->name('admin-usuarios');
 
-    Route::get('/admin/usuarios/agregar', [AdminUsuariosController::class, 'create'])->name('admin.usuarios.agregar');
+    Route::get('/admin/usuarios/agregar', [AdminUsuariosController::class, 'create'])->name('admin-usuarios-agregar');
 
     Route::post('/admin/usuarios/store', [AdminUsuariosController::class, 'store'])->name('admin-usuarios.store');
 

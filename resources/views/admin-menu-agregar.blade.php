@@ -1,15 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-@php
-// Datos de ejemplo para categorías
-$categorias = [
-    (object)['Cod_cat' => 1, 'Categoria' => 'Entradas'],
-    (object)['Cod_cat' => 2, 'Categoria' => 'Platos Fuertes'],
-    (object)['Cod_cat' => 3, 'Categoria' => 'Postres'],
-    (object)['Cod_cat' => 4, 'Categoria' => 'Bebidas'],
-];
-@endphp
+
 <div class="section">
     <h2 class="title is-2 mb-4">
         <i class="fa-solid fa-drumstick-bite"></i> Agregar Producto

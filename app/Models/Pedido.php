@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PedidoProducto;
+use App\Models\PedidoProductos;
 
 class Pedido extends Model
 {
@@ -21,8 +21,8 @@ class Pedido extends Model
         "Estado"
     ];
 
-    public function pedidoProducto()
+    public function pedidoProductos()
     {
-        return $this->hasMany(PedidoProducto::class, 'id_pedido');
+        return $this->hasMany(PedidoProductos::class, 'id_pedido', 'id_pedido');
     }
 }

@@ -1,0 +1,19 @@
+ El volumen de la unidad C es OS
+ El n£mero de serie del volumen es: 18B1-7398
+
+ Directorio de C:\Users\THE DARKNESS\OneDrive\Documentos\export\public
+
+31/05/2025  03:16 p. m.    <DIR>          .
+27/05/2025  07:46 p. m.    <DIR>          ..
+24/05/2025  02:40 a. m.               740 .htaccess
+31/05/2025  02:57 p. m.    <DIR>          build
+24/05/2025  12:37 p. m.    <DIR>          css
+24/05/2025  02:40 a. m.                 0 favicon.ico
+27/05/2025  06:35 p. m.                99 file.log
+26/05/2025  09:13 p. m.    <DIR>          img
+24/05/2025  02:40 a. m.               543 index.php
+24/05/2025  12:37 p. m.    <DIR>          js
+31/05/2025  03:16 p. m.                 0 log.txt
+24/05/2025  02:40 a. m.                24 robots.txt
+               6 archivos          1,406 bytes
+               6 dirs  77,793,447,936 bytes libres

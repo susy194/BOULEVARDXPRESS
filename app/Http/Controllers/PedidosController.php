@@ -11,6 +11,7 @@ use App\Models\Empleado;
 use App\Models\PedidoProductos;
 use App\Models\Pedido;
 use App\Models\Mesa;
+use App\Events\GetMesas;
 
 class PedidosController extends Controller
 {
@@ -28,16 +29,16 @@ class PedidosController extends Controller
             ->first();
 
         if (!$pedido) {
-        $pedido = Pedido::create([
-            'ID_emp' => $ID_emp,
-            'Fecha'  => date('Y-m-d'),
-            'Hora'   => date('H:i:s'),
-            'Num_m'  => $Num_m,
-            'Estado' => 'Pendiente',
-        ]);
+            $pedido = Pedido::create([
+                'ID_emp' => $ID_emp,
+                'Fecha'  => date('Y-m-d'),
+                'Hora'   => date('H:i:s'),
+                'Num_m'  => $Num_m,
+                'Estado' => 'Pendiente',
+            ]);
         }
 
-        PedidoProductos::create([
+        $pedidoProducto = PedidoProductos::create([
             'id_pedido'   => $pedido->id_pedido,
             'id_prod'     => $data['producto'],
             'cant_prod'   => $data['cantidad'],
@@ -51,6 +52,15 @@ class PedidosController extends Controller
         $productosPedidos = PedidoProductos::with('productos')
             ->where('id_pedido', $pedido->id_pedido)
             ->get();
+
+        $producto = Producto::where("id_prod", $pedidoProducto->id_prod)->first();
+
+        event( new GetMesas([
+            "id_pedido" => $pedido->id_pedido,
+            "producto"  => $producto->Nombre,
+            "cantidad"  => $pedidoProducto->cant_prod,
+            "nota"      => $pedidoProducto->Nota_prod
+        ]));
 
         return response()->json([
             'ok' => true,

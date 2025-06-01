@@ -5,7 +5,7 @@
     <h2 class="title is-2 mb-4">
             <i class="fa-solid fa-user-plus"></i> Agregar Usuario
         </h2>
-        <a href="{{ route('admin.usuarios') }}" class="button is-light is-large mb-4">
+        <a href="{{ route('admin-usuarios') }}" class="button is-light is-large mb-4">
             <span class="icon is-large"><i class="fas fa-arrow-left fa-lg"></i></span>
             <span class="has-text-weight-semibold">Volver a Administración de Usuarios</span>
         </a>
@@ -143,7 +143,7 @@ document.getElementById('btn-aceptar-confirmar').onclick = function() {
 };
 
 document.getElementById('btn-aceptar-exito').onclick = function() {
-    window.location.href = "{{ route('admin.usuarios') }}";
+    window.location.href = "{{ route('admin-usuarios') }}";
 };
 </script>
 @endsection

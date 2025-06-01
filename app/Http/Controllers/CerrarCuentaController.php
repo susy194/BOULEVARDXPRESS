@@ -9,7 +9,6 @@ class CerrarCuentaController extends Controller
 {
     public function cerrarCuenta($num_mesa)
     {
-        // Obtener el pedido completado más reciente de la mesa
         $pedido = DB::table('PEDIDOS')
             ->where('Num_m', $num_mesa)
             ->where('Estado', 'Pendiente')

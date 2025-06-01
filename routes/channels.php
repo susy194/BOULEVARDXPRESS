@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
 
-Broadcast::routes(['middleware' => ['web', 'auth']]);
+Broadcast::routes(['middleware' => ['web']]);
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return true;
-    // return (int) $user->id === (int) $id;
-});
+// Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });
 
-Broadcast::channel('mesasInfo', function ($user){
-    return true;
+Broadcast::channel('user.Chef', function ($user) {
+    return $user->rol === "Chef";
 });

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Mesa;
 
 class CategoriaController extends Controller
