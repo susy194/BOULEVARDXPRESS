@@ -67,10 +67,10 @@
             @endif
           </div>
           <div class="has-text-right mt-5">
-            <button class="button is-info is-medium">
+            <a href="{{ route('cerrar-cuenta.pdf', ['num_mesa' => $num_mesa]) }}" class="button is-info is-medium">
               <span class="icon is-medium"><i class="fas fa-print"></i></span>
               <span>Imprimir cuenta</span>
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -92,6 +92,7 @@ Route::middleware([CheckRole::class . ':Mesero'])->group(function () {
 
     Route::view( '/cerrar-cuenta', 'cerrar-cuenta')->name('cerrar-cuenta');
     Route::get('/cerrar-cuenta/{num_mesa}', [CerrarCuentaController::class, 'cerrarCuenta'])->name('cerrar-cuenta');
+    Route::get('/cerrar-cuenta/{num_mesa}/pdf', [CerrarCuentaController::class, 'generarPDF'])->name('cerrar-cuenta.pdf');
 
 
     Route::post( '/agregar-pedido/{mesa}', [PedidosController::class, 'agregarPedido']);
@@ -129,4 +130,12 @@ Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
     Route::delete('/admin/usuarios/{id}', [AdminUsuariosController::class, 'eliminarUsuario'])->name('admin.usuarios.eliminar');
 
     Route::get('/admin/reporte-ventas/generar', [ReporteVentasController::class, 'generarPDF'])->name('admin.reporte-ventas.generar');
+});
+
+Route::get('storage/app/temp/{filename}', function ($filename) {
+    $path = storage_path('app/temp/' . $filename);
+    if (file_exists($path)) {
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+    abort(404);
 });

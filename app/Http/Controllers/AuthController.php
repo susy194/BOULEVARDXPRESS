@@ -94,8 +94,8 @@ class AuthController extends Controller
             ->update(['intentos_fallidos' => $intentos]);
 
         return response()->json([
-            'ok' => false,
-            'error' => 'Credenciales incorrectas'
+           'ok' => false,
+           'error' => 'Credenciales incorrectas'
         ], 422);
     }
 
