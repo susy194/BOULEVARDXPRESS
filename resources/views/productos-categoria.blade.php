@@ -5,8 +5,8 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <a href="{{ url($back) }}" class="button is-light mb-4">
-                        <span class="icon">
+                    <a href="{{ url($back) }}" class="button is-light mb-4 is-large">
+                        <span class="icon is-large">
                             <i class="fas fa-arrow-left"></i>
                         </span>
                         <span>Volver a Categorías</span>
@@ -14,7 +14,10 @@
                 </div>
             </div>
 
-            <h2 class="title is-5 mb-4">Productos - {{ $categoria->Categoria }}</h2>
+
+            <h2 class="title is-3 mb-4">
+                <i class="fa-solid fa-bowl-food"></i>Productos - {{ $categoria->Categoria }}
+             </h2>
 
             <div class="box div-perso">
                 <div class="content">

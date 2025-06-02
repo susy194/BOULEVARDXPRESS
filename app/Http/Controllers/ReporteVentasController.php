@@ -30,7 +30,7 @@ class ReporteVentasController extends Controller
             ->orderBy('p.Num_m')
             ->get();
 
-        // Agrupar ventas por mesa
+
         $ventasPorMesa = $ventas->groupBy('Num_m');
 
         // Calcular totales
@@ -43,7 +43,7 @@ class ReporteVentasController extends Controller
             $granTotal += $totalMesa;
         }
 
-        // Generar el PDF
+
         $pdf = PDF::loadView('reporte-ventas-pdf', [
             'fecha' => $fecha,
             'ventasPorMesa' => $ventasPorMesa,
@@ -51,7 +51,7 @@ class ReporteVentasController extends Controller
             'granTotal' => $granTotal
         ]);
 
-        // Descargar el PDF
+
         return $pdf->download('reporte-ventas-' . now()->format('Y-m-d') . '.pdf');
     }
 

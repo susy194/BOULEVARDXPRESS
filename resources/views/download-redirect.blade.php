@@ -43,13 +43,13 @@
     </style>
     <script>
         window.onload = function() {
-            // Create a hidden iframe to download the PDF
+
             var iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             iframe.src = '{{ $pdfPath }}';
             document.body.appendChild(iframe);
 
-            // Redirect after a short delay
+            // Redirección a pagina principal del mesero después de 1.5 segundos
             setTimeout(function() {
                 window.location.href = '/home-mesero';
             }, 1500);

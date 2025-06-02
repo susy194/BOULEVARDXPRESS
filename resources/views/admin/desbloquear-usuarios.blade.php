@@ -48,6 +48,7 @@
                             {{ $usuario->bloqueado ? 'Bloqueado' : 'Desbloqueado' }}
                         </span>
                         <p class="is-size-6"><strong>Tipo de usuario:</strong> {{ $usuario->rol }}</p>
+                        <p class="is-size-6"><strong>Usuario:</strong> {{ $usuario->usuario }}</p>
                         <p class="is-size-6"><strong>Contraseña:</strong> {{ $usuario->password }}</p>
                     </div>
                 </div>

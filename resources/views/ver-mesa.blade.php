@@ -46,7 +46,7 @@
               @forelse($pedido->pedidoProductos as $productoPedido)
               <li style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" data-id-pedido="{{ $productoPedido->id_pedido }}" data-id-prod="{{ $productoPedido->id_prod }}">
                   <span>
-                    <span class="status-{{ $pedido->Estado ?? 'pendiente' }}">{{ $pedido->Estado }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class=status-{{ $productoPedido->Estado_prod ?? 'pendiente' }}>{{ $productoPedido->Estado_prod }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     {{ $productoPedido->cant_prod }} × {{ $productoPedido->Nombre }}
                       - <em>{{ $productoPedido->getNombre() }}</em> @if( $productoPedido->Nota_prod )<em>({{ $productoPedido->Nota_prod }})</em>@endif
                   </span>

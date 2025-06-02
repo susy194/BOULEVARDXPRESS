@@ -38,7 +38,6 @@ class CerrarCuentaController extends Controller
 
     public function generarPDF($num_mesa)
     {
-        // Get the pending order for the table
         $pedido = DB::table('PEDIDOS')
             ->where('Num_m', $num_mesa)
             ->where('Estado', 'Pendiente')
@@ -49,7 +48,7 @@ class CerrarCuentaController extends Controller
             return redirect()->back()->with('error', 'No hay pedido pendiente para esta mesa.');
         }
 
-        // Get the products for the order
+        // PRODUCTOS DEL PEDIDO
         $productos = DB::table('PEDIDOS_PRODUCTOS as pp')
             ->join('PRODUCTOS as p', 'pp.id_prod', '=', 'p.id_prod')
             ->where('pp.id_pedido', $pedido->id_pedido)
@@ -58,22 +57,22 @@ class CerrarCuentaController extends Controller
 
         $total = $productos->sum('importe');
 
-        // Update order status to 'Completado'
+        //ACTUALIZACION DE PEDIDOS A  'Completado'
         DB::table('PEDIDOS')
             ->where('id_pedido', $pedido->id_pedido)
             ->update(['Estado' => 'Completado']);
 
-        // Create a new record in CUENTA table
+        // INSERT EN TABLA CUENTA
         $num_cuenta = DB::table('CUENTA')->insertGetId([
             'id_pedido' => $pedido->id_pedido
         ]);
 
-        // Update table status to empty (0)
+        // ACTUALIZACION DE MESA EN (0)
         DB::table('MESA')
             ->where('Num_m', $num_mesa)
             ->update(['Estado' => 0]);
 
-        // Generate PDF content directly
+        // CONTENIDO DEL PDF
         $html = '
         <html>
         <head>
@@ -138,20 +137,19 @@ class CerrarCuentaController extends Controller
         </body>
         </html>';
 
-        // Generate PDF
+
         $pdf = PDF::loadHTML($html);
 
-        // Create temp directory if it doesn't exist
+
         $tempDir = storage_path('app/temp');
         if (!file_exists($tempDir)) {
             mkdir($tempDir, 0755, true);
         }
 
-        // Store the PDF temporarily
+
         $pdfPath = $tempDir . '/cuenta-' . $num_cuenta . '.pdf';
         $pdf->save($pdfPath);
 
-        // Return view that will handle download and redirect
         return view('download-redirect', [
             'pdfPath' => url('storage/app/temp/cuenta-' . $num_cuenta . '.pdf')
         ]);

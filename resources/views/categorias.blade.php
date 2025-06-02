@@ -5,11 +5,13 @@
 
 @section('content')
     <br><br><br><br>
-    <h2 class="title is-1">Agregar productos-Categorías de Mesa #{{ $Num_m }}</h2>
+     <h2 class="title is-1">
+        <i class="fa-solid fa-bowl-food"></i>Agregar productos-Categorías de Mesa #{{ $Num_m }}
+    </h2>
     <div class="has-text-left mb-4">
-      <a href="{{ $ref }}" class="button is-light is-medium">
-        <span class="icon is-medium"><i class="fas fa-arrow-left"></i></span>
-        <span class="is-size-5">Cancelar</span>
+      <a href="{{ $ref }}" class="button is-light is-large">
+        <span class="icon is-large"><i class="fas fa-arrow-left"></i></span>
+        <span class="is-size-4">Cancelar</span>
       </a>
     </div>
     <div class="columns">
@@ -98,7 +100,7 @@
                                     ${{ number_format($producto->PRECIO, 2) }}
                                 </span>
                             </div>
-                            <h5 class="title is-5">
+                            <h5 class="title is-4">
                                 <i class="fa-solid fa-utensils"></i> {{ $producto->Nombre }}
                             </h5>
                             <p class="subtitle is-6">{{ $producto->Descripcion }}</p>
