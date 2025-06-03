@@ -17,24 +17,30 @@ class ReporteVentasController extends Controller
         $ventas = DB::table('PEDIDOS as p')
             ->join('PEDIDOS_PRODUCTOS as pp', 'p.id_pedido', '=', 'pp.id_pedido')
             ->join('PRODUCTOS as prod', 'pp.id_prod', '=', 'prod.id_prod')
+            ->join('EMPLEADO as emp', 'p.ID_emp', '=', 'emp.ID_emp')
             ->whereDate('p.Fecha', now())
             ->where('p.Estado', 'Completado')
             ->select(
                 'p.Num_m',
                 'p.id_pedido',
+                'p.Hora',
+                'emp.nombre_emp',
                 'prod.Nombre',
                 'prod.PRECIO',
                 'pp.cant_prod',
                 DB::raw('prod.PRECIO * pp.cant_prod as subtotal')
             )
             ->orderBy('p.Num_m')
+            ->orderBy('p.id_pedido')
             ->get();
 
-
+        // Agrupar ventas por mesa y pedido
         $ventasPorMesa = $ventas->groupBy('Num_m');
+        $ventasPorPedido = $ventas->groupBy('id_pedido');
 
         // Calcular totales
         $totalesPorMesa = [];
+        $totalesPorPedido = [];
         $granTotal = 0;
 
         foreach ($ventasPorMesa as $mesa => $productos) {
@@ -43,14 +49,19 @@ class ReporteVentasController extends Controller
             $granTotal += $totalMesa;
         }
 
+        foreach ($ventasPorPedido as $pedido => $productos) {
+            $totalPedido = $productos->sum('subtotal');
+            $totalesPorPedido[$pedido] = $totalPedido;
+        }
 
         $pdf = PDF::loadView('reporte-ventas-pdf', [
             'fecha' => $fecha,
             'ventasPorMesa' => $ventasPorMesa,
+            'ventasPorPedido' => $ventasPorPedido,
             'totalesPorMesa' => $totalesPorMesa,
+            'totalesPorPedido' => $totalesPorPedido,
             'granTotal' => $granTotal
         ]);
-
 
         return $pdf->download('reporte-ventas-' . now()->format('Y-m-d') . '.pdf');
     }

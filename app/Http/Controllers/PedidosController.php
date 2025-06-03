@@ -12,6 +12,8 @@ use App\Models\PedidoProductos;
 use App\Models\Pedido;
 use App\Models\Mesa;
 use App\Events\GetMesas;
+use Illuminate\Support\Facades\Log;
+
 
 class PedidosController extends Controller
 {
@@ -56,10 +58,13 @@ class PedidosController extends Controller
         $producto = Producto::where("id_prod", $pedidoProducto->id_prod)->first();
 
         event( new GetMesas([
+            "Num_m"     => $pedido->Num_m,
             "id_pedido" => $pedido->id_pedido,
+            "id_prod"   => $producto->id_prod,
             "producto"  => $producto->Nombre,
             "cantidad"  => $pedidoProducto->cant_prod,
-            "nota"      => $pedidoProducto->Nota_prod
+            "nota"      => $pedidoProducto->Nota_prod,
+            "estado"    => $pedidoProducto->Estado_prod
         ]));
 
         return response()->json([
@@ -102,6 +107,10 @@ class PedidosController extends Controller
             $id_pedido = $data['id_pedido'];
             $id_prod = $data['id_prod'];
 
+            $producto = Producto::where('id_prod', $id_prod)
+                ->first()
+                ->Nombre;
+
             \Log::info('Eliminando producto', [
                 'id_pedido' => $id_pedido,
                 'id_prod' => $id_prod
@@ -126,6 +135,16 @@ class PedidosController extends Controller
                 'id_pedido' => $id_pedido,
                 'id_prod' => $id_prod
             ]);
+
+            event( new GetMesas([
+                "Num_m"     => $Num_m,
+                "id_pedido" => null,
+                "id_prod"   => $id_prod,
+                "producto"  => $producto,
+                "cantidad"  => null,
+                "nota"      => null,
+                "estado"    => "eliminado"
+            ]));
 
             return response()->json([
                 'ok' => true,

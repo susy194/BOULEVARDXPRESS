@@ -33,29 +33,29 @@
     margin-bottom: 0;  /* Elimina el espacio extra debajo */
     padding: 1rem 0;  /* Ajusta el padding para evitar que quede demasiado pegado */
   }
-  
+
   h2 {
     margin: 0;  /* Elimina márgenes del título */
   }
-  
+
   button {
     margin: 0;  /* Asegura que los botones no tengan márgenes extra */
   }
-  
+
   .mi-banner {
     background: #FFD256; /* Fondo degradado */
     padding: 0.5rem 0;  /* Reduce el espacio superior e inferior */
   }
-  
+
   .mi-banner .column {
     padding: 0.25rem; /* Reduce el padding interno de cada columna */
   }
-  
+
   .mi-banner h2 {
     font-size: 1.2rem; /* Hace el título más compacto */
     margin: 0; /* Elimina espacios extra */
   }
-  
+
   .mi-banner button {
     padding: 0.25rem 0.75rem; /* Botón más pequeño */
     font-size: 0.9rem; /* Reduce el tamaño del texto del botón */
@@ -64,13 +64,13 @@
   .icon-button {
     width: 3rem;  /* Hace el botón cuadrado */
     height: 3rem; /* Igual al ancho para que sea cuadrado */
-    align-items: center;  
-    justify-content: center;  
+    align-items: center;
+    justify-content: center;
     font-size: 1rem; /* Hace el ícono más grande */
     padding: 0;  /* Elimina el padding extra */
     border-radius: 0.5rem; /* Opcional: esquinas ligeramente redondeadas */
   }
-  
+
 html, body {
     height: 100%;
     display: flex;
@@ -110,9 +110,9 @@ html, body {
 
 .div-perso{
   background-color: rgb(223, 221, 221);
-  /* display: flex; 
-  align-items: center; 
-  justify-content: center; 
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100vh; */
 }
 

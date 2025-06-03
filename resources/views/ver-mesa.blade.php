@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-
+@vite('resources/js/app.js')
 <div class="section">
   <div class="container">
     <div class="columns is-vcentered">
@@ -128,6 +128,41 @@
     id_prod: 0
   };
 
+  // Escuchar eventos de actualización de estado
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Iniciando escucha de eventos...');
+
+    window.Echo.private('user.Mesero')
+      .listen('.ProductoEntregado', (e) => {
+        console.log('Evento recibido:', e);
+
+        const li = document.querySelector(`[data-id-pedido="${e.id_pedido}"][data-id-prod="${e.id_prod}"]`);
+        console.log('Elemento encontrado:', li);
+
+        if (li) {
+          // Remover la clase de estado anterior
+          const oldStatusSpan = li.querySelector('[class^="status-"]');
+          if (oldStatusSpan) {
+            oldStatusSpan.remove();
+          }
+
+          // Crear y agregar el nuevo span de estado
+          const statusSpan = document.createElement('span');
+          statusSpan.className = `status-${e.estado}`;
+          statusSpan.textContent = e.estado + '     ';
+          statusSpan.style.color = e.estado === 'entregado' ? '#4caf50' : '#ff9800';
+
+          // Insertar el nuevo span al inicio del contenido
+          const contentSpan = li.querySelector('span');
+          contentSpan.insertBefore(statusSpan, contentSpan.firstChild);
+
+          // Agregar una animación suave
+          li.style.transition = 'all 0.3s ease';
+          li.style.backgroundColor = e.estado === 'entregado' ? '#f0fff0' : '#fff';
+        }
+      });
+  });
+
   function confirmarEliminarProducto(idPedido, idProd) {
     document.getElementById('modal-eliminar-producto').classList.add('is-active');
     productoEliminar.id_pedido = idPedido;
@@ -152,18 +187,18 @@
         id_prod: productoEliminar.id_prod
       });
 
-    const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
+      const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
           id_pedido: productoEliminar.id_pedido,
           id_prod: productoEliminar.id_prod
-      })
-    });
+        })
+      });
 
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
@@ -174,11 +209,11 @@
         if (li) li.remove();
 
         // Verificar si quedan productos
-    const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
-    const comanda_ul = document.getElementById('comanda').querySelector('ul');
+        const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
+        const comanda_ul = document.getElementById('comanda').querySelector('ul');
 
         if (comanda_length === 0) {
-      comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+          comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
         }
 
         cerrarModalEliminarProducto();

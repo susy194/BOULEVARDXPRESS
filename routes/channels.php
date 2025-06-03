@@ -12,3 +12,8 @@ Broadcast::routes(['middleware' => ['web']]);
 Broadcast::channel('user.Chef', function ($user) {
     return $user->rol === "Chef";
 });
+
+Broadcast::channel('user.Mesero', function ($user) {
+    \Log::info('Autenticando canal user.Mesero para usuario:', ['user' => $user]);
+    return true; // Permitir acceso a todos los usuarios autenticados
+});

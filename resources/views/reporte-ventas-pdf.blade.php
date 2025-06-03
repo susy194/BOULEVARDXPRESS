@@ -82,6 +82,7 @@
         @foreach($pedidosMesa as $pedidoId => $productosPedido)
             @php
                 $primerProducto = $productosPedido->first();
+                $totalPedido = $productosPedido->sum('subtotal');
             @endphp
             <div class="pedido-header">
                 Pedido #{{ $pedidoId }} - Mesero: {{ $primerProducto->nombre_emp }} - Hora: {{ $primerProducto->Hora }}
@@ -107,7 +108,7 @@
                 </tbody>
             </table>
             <div class="total-pedido">
-                Total Pedido #{{ $pedidoId }}: ${{ number_format($totalesPorPedido[$pedidoId], 2) }}
+                Total Pedido #{{ $pedidoId }}: ${{ number_format($totalPedido, 2) }}
             </div>
         @endforeach
         <div class="total-mesa">
