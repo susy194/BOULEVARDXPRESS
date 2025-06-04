@@ -1,6 +1,12 @@
 @extends('layouts.base')
 
 @section('content')
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@vite('resources/js/app.js')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/notifyjs-browser/dist/notify.js"></script>
+
 <br><br><br>
 <h2 class="title is-1">
     <i class="fa-solid fa-bell-concierge"></i> Pantalla principal-Mesas
@@ -208,6 +214,30 @@
     async function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        window.Echo.private('user.Mesero')
+            .listen('ProductoEntregado', (e) => {
+                const data = e.data;
+
+                const productoElement = document.querySelector(`[data-id-pedido="${data.id_pedido}"][data-id-prod="${data.id_prod}"]`);
+
+                if ( productoElement ) {
+                    $.notify(
+                        `Producto ${data.nombre} entregado`,
+                        "info"
+                    );
+
+                    productoElement.querySelector("span>span").innerHTML = "<span class='status-entregado'>entregado&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+                    return;
+                }
+
+                $.notify(
+                    `Producto ${data.nombre} entregado en Mesa #${data.N_mesa}`,
+                    "info"
+                );
+            });
+    });
 
     document.addEventListener('DOMContentLoaded', actualizar_mesas);
 </script>

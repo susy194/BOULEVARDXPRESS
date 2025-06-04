@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\GetMesas;
 use PDF;
 
 class CerrarCuentaController extends Controller
@@ -28,6 +29,16 @@ class CerrarCuentaController extends Controller
 
             $total = $productos->sum('importe');
         }
+
+        event( new GetMesas([
+            "Num_m"       => $num_mesa,
+            "id_pedido"   => null,
+            "id_prod"     => null,
+            "producto"    => null,
+            "cantidad"    => null,
+            "nota"        => null,
+            "estado"      => "Completado"
+        ]));
 
         return view('cerrar-cuenta', [
             'num_mesa' => $num_mesa,

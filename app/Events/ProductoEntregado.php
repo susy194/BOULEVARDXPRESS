@@ -12,37 +12,31 @@ use Illuminate\Queue\SerializesModels;
 
 class ProductoEntregado implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $data;
+    // use Dispatchable, InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($data)
-    {
-        $this->data = $data;
-    }
+    public function __construct(
+        public array $data
+    ){}
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel
+     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        \Log::info('Broadcasting on channel: user.Mesero');
-        return new PrivateChannel('user.Mesero');
+        return [
+            new PrivateChannel('user.Mesero'),
+        ];
     }
 
-    public function broadcastAs()
-    {
-        return 'ProductoEntregado';
-    }
-
-    public function broadcastWith()
-    {
-        \Log::info('Broadcasting data:', $this->data);
-        return $this->data;
+    public function broadcastWith(){
+        return [
+            'data' => $this->data
+        ];
     }
 }

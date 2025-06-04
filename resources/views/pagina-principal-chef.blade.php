@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('content')
 
-<meta name="csrf-token" content=" csrf_token() ">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @vite('resources/js/app.js')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/notifyjs-browser/dist/notify.js"></script>
@@ -17,7 +17,7 @@
     <template id="target-template">
                 <div class="column is-4-desktop is-12-tablet is-6-mobile">
                     <div class="box mb-5" style="background-color: #e5e5e5;">
-                        <h2 class="title is-5">
+                        <h2 class="title is-4">
                              <p class="Num_m" style="has-text-weight-bold" ></p>
                         </h2>
 
@@ -31,6 +31,18 @@
             </div>
     </template>
 </div>
+
+<script>
+    const comanda_box = document.getElementById('comanda-box');
+    const template    = document.getElementById('target-template').content;
+
+    for ( let i = 1; i <= 6; i++ ) {
+        const clone = template.cloneNode(true);
+        clone.querySelector('.Num_m').textContent = `Mesa #${i}`;
+        clone.querySelector('div>div').id = `mesa-${i}`;
+        comanda_box.appendChild(clone);
+    }
+</script>
 
 <script src="{{ asset('js/chef.js') }}"></script>
 @endsection

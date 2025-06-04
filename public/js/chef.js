@@ -1,19 +1,29 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const comanda_box = document.getElementById('comanda-box');
-    const template    = document.getElementById('target-template').content;
-
-    for ( let i = 1; i <= 6; i++ ) {
-        const clone = template.cloneNode(true);
-        clone.querySelector('.Num_m').textContent = `Mesa #${i}`;
-        clone.querySelector('div>div').id = `mesa-${i}`;
-        comanda_box.appendChild(clone);
-    }
-
     window.Echo.private("user.Chef")
         .listen('GetMesas', (e) => {
             const data = e.data;
 
             const { Num_m, id_pedido, id_prod, producto, cantidad, nota, estado } = data;
+
+            if ( estado === 'Completado' ) {
+
+                $.notify(
+                    `Pedido de Mesa #${Num_m} completado`,
+                    "info"
+                );
+
+                const mesa = document.getElementById(`mesa-${Num_m}`);
+
+                const lis  = mesa.querySelectorAll('li');
+
+                for (let i = lis.length-1; i > 0; i--) {
+                    lis[i].remove();
+                }
+
+                mesa.querySelector('li').classList.remove('is-hidden');
+
+                return;
+            }
 
             if ( estado === 'eliminado' ) {
                 const mesa = document.getElementById(`mesa-${Num_m}`);
@@ -34,7 +44,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
 
             const mesa = document.getElementById(`mesa-${Num_m}`);
-
             const producto_existe = mesa.querySelector(`#prod-${id_prod}`);
 
             if ( producto_existe ) {
@@ -92,9 +101,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
             li.appendChild(button);
             ul.appendChild(li);
         });
+});
 
-    fetch('/api/getmesas')
+
+document.addEventListener('DOMContentLoaded', async (event) => {
+    await sleep(2000);
+    await fetch('/api/getmesas')
+        .then(response => {
+            console.log("");
+        })
         .catch(error => {
             console.error('Error:', error);
         });
 });
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

@@ -58,7 +58,6 @@ Route::middleware([CheckRole::class . ':Chef'])->group(function () {
     Route::get('/home-chef',[ChefController::class,'CargarPagina'])->name('home-chef');
     Route::get('/api/getmesas',[ChefController::class,'ObtenerComanda']);
     Route::get('/api/actualizarProducto/{id_pedido}/{id_prod}',[ChefController::class,'CambiarEstadoProducto']);
-    Route::get('/api/actualizarProducto/{id_pedido}/{id_prod}',[ChefController::class,'EliminarProducto']);
 });
 
 

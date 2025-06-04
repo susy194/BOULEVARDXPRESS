@@ -1,7 +1,10 @@
 @extends('layouts.base')
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @vite('resources/js/app.js')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/notifyjs-browser/dist/notify.js"></script>
 <div class="section">
   <div class="container">
     <div class="columns is-vcentered">
@@ -46,7 +49,7 @@
               @forelse($pedido->pedidoProductos as $productoPedido)
               <li style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" data-id-pedido="{{ $productoPedido->id_pedido }}" data-id-prod="{{ $productoPedido->id_prod }}">
                   <span>
-                    <span class=status-{{ $productoPedido->Estado_prod ?? 'pendiente' }}>{{ $productoPedido->Estado_prod }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="status-{{ $productoPedido->Estado_prod ?? 'pendiente' }}">{{ $productoPedido->Estado_prod }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     {{ $productoPedido->cant_prod }} × {{ $productoPedido->Nombre }}
                       - <em>{{ $productoPedido->getNombre() }}</em> @if( $productoPedido->Nota_prod )<em>({{ $productoPedido->Nota_prod }})</em>@endif
                   </span>
@@ -122,166 +125,150 @@
   </div>
 </div>
 
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
-  let productoEliminar = {
-    id_pedido: 0,
-    id_prod: 0
-  };
+    let productoEliminar = {
+        id_pedido: 0,
+        id_prod: 0
+    };
 
-  // Escuchar eventos de actualización de estado
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('Iniciando escucha de eventos...');
+    // Escuchar eventos de actualización de estado
+    document.addEventListener('DOMContentLoaded', (event) => {
+        console.log('Iniciando escucha de eventos...');
 
-    window.Echo.private('user.Mesero')
-      .listen('.ProductoEntregado', (e) => {
-        console.log('Evento recibido:', e);
+        window.Echo.private('user.Mesero')
+            .listen('ProductoEntregado', (e) => {
+              const data = e.data;
 
-        const li = document.querySelector(`[data-id-pedido="${e.id_pedido}"][data-id-prod="${e.id_prod}"]`);
-        console.log('Elemento encontrado:', li);
+              $.notify(
+                `Producto ${data.nombre} entregado`,
+                "info"
+              );
 
-        if (li) {
-          // Remover la clase de estado anterior
-          const oldStatusSpan = li.querySelector('[class^="status-"]');
-          if (oldStatusSpan) {
-            oldStatusSpan.remove();
-          }
+                const productoElement = document.querySelector(`[data-id-pedido="${data.id_pedido}"][data-id-prod="${data.id_prod}"]`);
+                productoElement.querySelector("span>span").innerHTML = "<span class='status-entregado'>entregado&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+            });
+    });
 
-          // Crear y agregar el nuevo span de estado
-          const statusSpan = document.createElement('span');
-          statusSpan.className = `status-${e.estado}`;
-          statusSpan.textContent = e.estado + '     ';
-          statusSpan.style.color = e.estado === 'entregado' ? '#4caf50' : '#ff9800';
-
-          // Insertar el nuevo span al inicio del contenido
-          const contentSpan = li.querySelector('span');
-          contentSpan.insertBefore(statusSpan, contentSpan.firstChild);
-
-          // Agregar una animación suave
-          li.style.transition = 'all 0.3s ease';
-          li.style.backgroundColor = e.estado === 'entregado' ? '#f0fff0' : '#fff';
-        }
-      });
-  });
-
-  function confirmarEliminarProducto(idPedido, idProd) {
-    document.getElementById('modal-eliminar-producto').classList.add('is-active');
-    productoEliminar.id_pedido = idPedido;
-    productoEliminar.id_prod = idProd;
-  }
-
-  function cerrarModalEliminarProducto() {
-    document.getElementById('modal-eliminar-producto').classList.remove('is-active');
-    productoEliminar.id_pedido = 0;
-    productoEliminar.id_prod = 0;
-  }
-
-  async function eliminarProducto() {
-    if (productoEliminar.id_pedido === 0 || productoEliminar.id_prod === 0) {
-      alert('Error: No se ha seleccionado un producto para eliminar');
-      return;
+    function confirmarEliminarProducto(idPedido, idProd) {
+        document.getElementById('modal-eliminar-producto').classList.add('is-active');
+        productoEliminar.id_pedido = idPedido;
+        productoEliminar.id_prod = idProd;
     }
 
-    try {
-      console.log('Enviando datos:', {
-        id_pedido: productoEliminar.id_pedido,
-        id_prod: productoEliminar.id_prod
-      });
+    function cerrarModalEliminarProducto() {
+        document.getElementById('modal-eliminar-producto').classList.remove('is-active');
+        productoEliminar.id_pedido = 0;
+        productoEliminar.id_prod = 0;
+    }
 
-      const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          id_pedido: productoEliminar.id_pedido,
-          id_prod: productoEliminar.id_prod
-        })
-      });
-
-      const data = await response.json();
-      console.log('Respuesta del servidor:', data);
-
-      if (response.ok) {
-        // Eliminar el elemento del DOM
-        const li = document.querySelector(`[data-id-pedido="${productoEliminar.id_pedido}"][data-id-prod="${productoEliminar.id_prod}"]`);
-        if (li) li.remove();
-
-        // Verificar si quedan productos
-        const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
-        const comanda_ul = document.getElementById('comanda').querySelector('ul');
-
-        if (comanda_length === 0) {
-          comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+    async function eliminarProducto() {
+        if (productoEliminar.id_pedido === 0 || productoEliminar.id_prod === 0) {
+            alert('Error: No se ha seleccionado un producto para eliminar');
+            return;
         }
 
-        cerrarModalEliminarProducto();
-      } else {
-        alert('Error al eliminar el producto: ' + (data.message || 'Error desconocido'));
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error al eliminar el producto: ' + error.message);
+        try {
+            console.log('Enviando datos:', {
+                id_pedido: productoEliminar.id_pedido,
+                id_prod: productoEliminar.id_prod
+            });
+
+            const response = await fetch(`/eliminar-pedido/{{ $Num_m }}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_pedido: productoEliminar.id_pedido,
+                    id_prod: productoEliminar.id_prod
+                })
+            });
+
+            const data = await response.json();
+            console.log('Respuesta del servidor:', data);
+
+            if (response.ok) {
+                // Eliminar el elemento del DOM
+                const li = document.querySelector(`[data-id-pedido="${productoEliminar.id_pedido}"][data-id-prod="${productoEliminar.id_prod}"]`);
+                if (li) li.remove();
+
+                // Verificar si quedan productos
+                const comanda_length = document.getElementById('comanda').querySelectorAll('li').length;
+                const comanda_ul = document.getElementById('comanda').querySelector('ul');
+
+                if (comanda_length === 0) {
+                    comanda_ul.innerHTML = '<li>No hay productos en el pedido actual.</li>';
+                }
+
+                cerrarModalEliminarProducto();
+            } else {
+                alert('Error al eliminar el producto: ' + (data.message || 'Error desconocido'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al eliminar el producto: ' + error.message);
+        }
     }
-  }
 
-  let idPedidoEditar = 0;
-  let idProdEditar = 0;
+    let idPedidoEditar = 0;
+    let idProdEditar = 0;
 
-  function editarProducto(idPedido, idProd, cantidad, notas) {
-    idPedidoEditar = idPedido;
-    idProdEditar = idProd;
-    document.getElementById('editar-cantidad').value = cantidad;
-    document.getElementById('editar-notas').value = notas || '';
-    document.getElementById('modal-editar-producto').classList.add('is-active');
-  }
-
-  function cerrarModalEditarProducto() {
-    document.getElementById('modal-editar-producto').classList.remove('is-active');
-  }
-
-  function cambiarCantidadEdicion(delta) {
-    const input = document.getElementById('editar-cantidad');
-    const nuevaCantidad = parseInt(input.value) + delta;
-    if (nuevaCantidad >= 1) {
-      input.value = nuevaCantidad;
+    function editarProducto(idPedido, idProd, cantidad, notas) {
+        idPedidoEditar = idPedido;
+        idProdEditar = idProd;
+        document.getElementById('editar-cantidad').value = cantidad;
+        document.getElementById('editar-notas').value = notas || '';
+        document.getElementById('modal-editar-producto').classList.add('is-active');
     }
-  }
 
-  async function guardarEdicion() {
-    if (idPedidoEditar === 0 || idProdEditar === 0) return;
-
-    const cantidad = parseInt(document.getElementById('editar-cantidad').value);
-    const notas = document.getElementById('editar-notas').value;
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    try {
-      const response = await fetch('/editar-producto', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': token,
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          id_pedido: idPedidoEditar,
-          id_prod: idProdEditar,
-          cantidad: cantidad,
-          notas: notas
-        })
-      });
-
-      if (response.ok) {
-        cerrarModalEditarProducto();
-        window.location.reload();
-      } else {
-        const error = await response.json();
-        alert('Error al editar el producto: ' + (error.error || 'Error desconocido'));
-      }
-    } catch (error) {
-      alert('Error al editar el producto: ' + error.message);
+    function cerrarModalEditarProducto() {
+        document.getElementById('modal-editar-producto').classList.remove('is-active');
     }
-  }
+
+    function cambiarCantidadEdicion(delta) {
+        const input = document.getElementById('editar-cantidad');
+        const nuevaCantidad = parseInt(input.value) + delta;
+        if (nuevaCantidad >= 1) {
+            input.value = nuevaCantidad;
+        }
+    }
+
+    async function guardarEdicion() {
+        if (idPedidoEditar === 0 || idProdEditar === 0) return;
+
+        const cantidad = parseInt(document.getElementById('editar-cantidad').value);
+        const notas = document.getElementById('editar-notas').value;
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        try {
+            const response = await fetch('/editar-producto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_pedido: idPedidoEditar,
+                    id_prod: idProdEditar,
+                    cantidad: cantidad,
+                    notas: notas
+                })
+            });
+
+            if (response.ok) {
+                cerrarModalEditarProducto();
+                window.location.reload();
+            } else {
+                const error = await response.json();
+                alert('Error al editar el producto: ' + (error.error || 'Error desconocido'));
+            }
+        } catch (error) {
+            alert('Error al editar el producto: ' + error.message);
+        }
+    }
 </script>
 @endsection
