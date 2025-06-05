@@ -30,15 +30,6 @@ class CerrarCuentaController extends Controller
             $total = $productos->sum('importe');
         }
 
-        event( new GetMesas([
-            "Num_m"       => $num_mesa,
-            "id_pedido"   => null,
-            "id_prod"     => null,
-            "producto"    => null,
-            "cantidad"    => null,
-            "nota"        => null,
-            "estado"      => "Completado"
-        ]));
 
         return view('cerrar-cuenta', [
             'num_mesa' => $num_mesa,
@@ -77,6 +68,17 @@ class CerrarCuentaController extends Controller
         $num_cuenta = DB::table('CUENTA')->insertGetId([
             'id_pedido' => $pedido->id_pedido
         ]);
+        //ACTUALIZACION DE MESAS-QUITAR PRODUCTOS
+        event( new GetMesas([
+            "Num_m"       => $num_mesa,
+            "id_pedido"   => null,
+            "id_prod"     => null,
+            "producto"    => null,
+            "cantidad"    => null,
+            "nota"        => null,
+            "estado"      => "Completado"
+        ]));
+
 
         // ACTUALIZACION DE MESA EN (0)
         DB::table('MESA')
